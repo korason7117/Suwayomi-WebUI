@@ -8,7 +8,7 @@
 
 import Box from '@mui/material/Box';
 import { memo, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { useLingui } from '@lingui/react/macro';
 import { useDefaultReaderSettings } from '@/features/reader/settings/ReaderSettingsMetadata.ts';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
@@ -78,6 +78,7 @@ const BaseReader = ({
     const safeAreaInset = useReaderSettingsStore((state) => state.safeAreaInset);
 
     const scrollElementRef = useRef<HTMLDivElement | null>(null);
+    const isScreenshotMode = useLocation().search.includes('screenshot');
 
     const [areSettingsSet, setAreSettingsSet] = useState(false);
 
@@ -228,7 +229,8 @@ const BaseReader = ({
                 minWidth: `calc(100vw - ${readerNavBarWidth}px)`,
                 maxWidth: `calc(100vw - ${readerNavBarWidth}px)`,
                 width: `calc(100vw - ${readerNavBarWidth}px)`,
-                height: `100vh`,
+                minHeight: `100vh`,
+                height: isScreenshotMode ? 'auto' : `100vh`,
                 pt: safeAreaInset.top ? 'env(safe-area-inset-top)' : undefined,
                 pb: safeAreaInset.bottom ? 'env(safe-area-inset-bottom)' : undefined,
                 pr: safeAreaInset.right ? 'env(safe-area-inset-right)' : undefined,
@@ -236,11 +238,11 @@ const BaseReader = ({
                 marginLeft: `${readerNavBarWidth}px`,
                 transition: (theme) =>
                     `width 0.${theme.transitions.duration.shortest}s, margin-left 0.${theme.transitions.duration.shortest}s`,
-                overflow: 'auto',
+                overflow: isScreenshotMode ? 'visible' : 'auto',
                 backgroundColor: READER_BACKGROUND_TO_COLOR[backgroundColor],
             }}
         >
-            <ReaderViewer ref={scrollElementRef} />
+            <ReaderViewer ref={scrollElementRef} useWindowScroll={isScreenshotMode} />
             <TapZoneLayout />
             <ReaderRGBAFilter />
             <ReaderAutoScroll />
