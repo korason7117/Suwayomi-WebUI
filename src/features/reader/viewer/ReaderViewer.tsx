@@ -65,9 +65,11 @@ const READING_MODE_TO_IN_VIEWPORT_TYPE: Record<ReadingMode, PageInViewportType> 
 const BaseReaderViewer = ({
     readerNavBarWidth,
     updateCurrentPageIndex,
+    useWindowScroll = false,
     ref,
 }: Pick<NavbarContextType, 'readerNavBarWidth'> & {
     updateCurrentPageIndex: ReturnType<typeof ReaderControls.useUpdateCurrentPageIndex>;
+    useWindowScroll?: boolean;
     ref?: ForwardedRef<HTMLDivElement | null>;
 }) => {
     const { direction: themeDirection } = useTheme();
@@ -235,6 +237,25 @@ const BaseReaderViewer = ({
         readerWidth,
     );
 
+    useEffect(() => {
+        if (!useWindowScroll) {
+            return;
+        }
+
+        const onScroll = () =>
+            ReaderControls.updateCurrentPageOnScroll(
+                imageRefs,
+                totalPages - 1,
+                updateCurrentPageIndex,
+                inViewportType,
+                readingDirection,
+            );
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+
+        return () => window.removeEventListener('scroll', onScroll);
+    }, [useWindowScroll, imageRefs, totalPages, updateCurrentPageIndex, inViewportType, readingDirection]);
+
     useLayoutEffect(() => {
         setChapterViewerSize({
             minChapterViewerWidth: 0,
@@ -253,8 +274,8 @@ const BaseReaderViewer = ({
             ref={mergedRef}
             sx={{
                 width: '100%',
-                height: '100%',
-                overflow: 'auto',
+                height: useWindowScroll ? 'auto' : '100%',
+                overflow: useWindowScroll ? 'visible' : 'auto',
                 flexWrap: 'nowrap',
                 ...applyStyles(isContinuousReadingModeActive && !shouldShowTransitionPage, {
                     gap: `${getPageGap(pageGap, readingMode)}px`,
@@ -273,14 +294,17 @@ const BaseReaderViewer = ({
                 }),
             }}
             onClick={(e) => !isDragging && ReaderControls.handleClick(scrollElementRef.current, e)}
-            onScroll={() =>
-                ReaderControls.updateCurrentPageOnScroll(
-                    imageRefs,
-                    totalPages - 1,
-                    updateCurrentPageIndex,
-                    inViewportType,
-                    readingDirection,
-                )
+            onScroll={
+                useWindowScroll
+                    ? undefined
+                    : () =>
+                          ReaderControls.updateCurrentPageOnScroll(
+                              imageRefs,
+                              totalPages - 1,
+                              updateCurrentPageIndex,
+                              inViewportType,
+                              readingDirection,
+                          )
             }
         >
             {chaptersToRender.map((_, index) => {
