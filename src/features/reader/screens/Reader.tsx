@@ -78,7 +78,6 @@ const BaseReader = ({
     const safeAreaInset = useReaderSettingsStore((state) => state.safeAreaInset);
 
     const scrollElementRef = useRef<HTMLDivElement | null>(null);
-    const isScreenshotMode = useLocation().search.includes('screenshot');
 
     const [areSettingsSet, setAreSettingsSet] = useState(false);
 
@@ -230,7 +229,7 @@ const BaseReader = ({
                 maxWidth: `calc(100vw - ${readerNavBarWidth}px)`,
                 width: `calc(100vw - ${readerNavBarWidth}px)`,
                 minHeight: `100vh`,
-                height: isScreenshotMode ? 'auto' : `100vh`,
+                height: 'auto',
                 pt: safeAreaInset.top ? 'env(safe-area-inset-top)' : undefined,
                 pb: safeAreaInset.bottom ? 'env(safe-area-inset-bottom)' : undefined,
                 pr: safeAreaInset.right ? 'env(safe-area-inset-right)' : undefined,
@@ -238,11 +237,11 @@ const BaseReader = ({
                 marginLeft: `${readerNavBarWidth}px`,
                 transition: (theme) =>
                     `width 0.${theme.transitions.duration.shortest}s, margin-left 0.${theme.transitions.duration.shortest}s`,
-                overflow: isScreenshotMode ? 'visible' : 'auto',
+                overflow: 'visible',
                 backgroundColor: READER_BACKGROUND_TO_COLOR[backgroundColor],
             }}
         >
-            <ReaderViewer ref={scrollElementRef} useWindowScroll={isScreenshotMode} />
+            <ReaderViewer ref={scrollElementRef} useWindowScroll />
             <TapZoneLayout />
             <ReaderRGBAFilter />
             <ReaderAutoScroll />
