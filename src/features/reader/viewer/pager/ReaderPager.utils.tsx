@@ -585,6 +585,10 @@ export const getPageIndexesToLoad = (
         return [];
     }
 
+    if (isCurrentChapter) {
+        return pages.map((_, index) => index);
+    }
+
     const currentPagesIndex = getPage(currentPageIndex, pages).pagesIndex;
     const finalImagePreLoadAmount = getImagePreLoadAmount(
         isCurrentChapter,
