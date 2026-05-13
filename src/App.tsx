@@ -393,6 +393,34 @@ const ReaderApp = () => (
     </ErrorBoundary>
 );
 
+const AppLayout = () => (
+    <InitializeGuard>
+        <ServerUpdateChecker />
+        <WebUIUpdateChecker />
+        <InitialBackgroundRequests />
+        <BackgroundSubscriptions />
+        <ResumeMigration />
+
+        <Routes>
+            <Route path={AppRoutes.reader.match} element={<ReaderApp />} />
+            <Route
+                path={AppRoutes.matchAll.match}
+                element={
+                    <>
+                        <Box sx={{ display: 'flex' }}>
+                            <Box sx={{ flexShrink: 0, position: 'relative', height: '100vh' }}>
+                                <DefaultNavBar />
+                            </Box>
+                            <MainApp />
+                        </Box>
+                        <MigrationFABIndicator />
+                    </>
+                }
+            />
+        </Routes>
+    </InitializeGuard>
+);
+
 export const App: React.FC = () => (
     <AppContext>
         <ScrollToTop />
@@ -403,24 +431,7 @@ export const App: React.FC = () => (
         <CssBaseline enableColorScheme />
 
         <AuthGuard>
-            <InitializeGuard>
-                <ServerUpdateChecker />
-                <WebUIUpdateChecker />
-                <InitialBackgroundRequests />
-                <BackgroundSubscriptions />
-                <ResumeMigration />
-
-                <Box sx={{ display: 'flex' }}>
-                    <Box sx={{ flexShrink: 0, position: 'relative', height: '100vh' }}>
-                        <DefaultNavBar />
-                    </Box>
-                    <Routes>
-                        <Route path={AppRoutes.matchAll.match} element={<MainApp />} />
-                        <Route path={AppRoutes.reader.match} element={<ReaderApp />} />
-                    </Routes>
-                </Box>
-                <MigrationFABIndicator />
-            </InitializeGuard>
+            <AppLayout />
         </AuthGuard>
     </AppContext>
 );
