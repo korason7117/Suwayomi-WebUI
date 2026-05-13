@@ -62,7 +62,7 @@ const READING_MODE_TO_IN_VIEWPORT_TYPE: Record<ReadingMode, PageInViewportType> 
 const BaseReaderViewer = ({
     readerNavBarWidth,
     updateCurrentPageIndex,
-    useWindowScroll = false,
+    useWindowScroll = true,
     ref,
 }: Pick<NavbarContextType, 'readerNavBarWidth'> & {
     updateCurrentPageIndex: ReturnType<typeof ReaderControls.useUpdateCurrentPageIndex>;
