@@ -23,7 +23,7 @@ jobs:
           ref: master
           path: master
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ github.token }}
 
       - name: Set up NodeJs
         uses: actions/setup-node@v4
@@ -90,14 +90,6 @@ jobs:
           owner: "Suwayomi"
           repo: "Suwayomi-WebUI-preview"
           tag: ${{ steps.GenTagName.outputs.value }}
-
-      - name: Checkout github pages repo
-        uses: actions/checkout@v4
-        with:
-          repository: "Suwayomi-WebUI-preview/suwayomi-webui-preview.github.io"
-          ref: main
-          path: gh-pages
-          token: ${{ secrets.DEPLOY_PREVIEW_TOKEN }}
 
       - name: Deploy github pages
         run: |
