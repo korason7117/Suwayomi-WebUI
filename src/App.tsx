@@ -385,7 +385,15 @@ const ReaderApp = () => (
     <ErrorBoundary>
         <Routes>
             <Route element={<PrivateRoutes />}>
-                <Route path={AppRoutes.matchAll.match} element={<Reader />} />
+                <Route
+                    path={AppRoutes.matchAll.match}
+                    element={
+                        <>
+                            <DefaultNavBar />
+                            <Reader />
+                        </>
+                    }
+                />
             </Route>
         </Routes>
     </ErrorBoundary>
