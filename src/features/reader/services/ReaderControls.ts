@@ -85,6 +85,20 @@ const getScrollDirectionInvert = (
 export class ReaderControls {
     private static updateCurrentPageTimeout: NodeJS.Timeout;
 
+    private static getScrollableElement(element: HTMLElement | null): HTMLElement | null {
+        if (!element) {
+            return document.scrollingElement as HTMLElement | null;
+        }
+
+        const hasVerticalOverflow = Math.abs(element.scrollHeight - element.clientHeight) > 1;
+        const hasHorizontalOverflow = Math.abs(element.scrollWidth - element.clientWidth) > 1;
+        if (hasVerticalOverflow || hasHorizontalOverflow) {
+            return element;
+        }
+
+        return (document.scrollingElement as HTMLElement | null) ?? element;
+    }
+
     static scroll(
         offset: ScrollOffset,
         direction: ScrollDirection,
@@ -93,21 +107,22 @@ export class ReaderControls {
         element: HTMLElement,
         scrollAmountPercentage: number = ReaderScrollAmount.LARGE,
     ): void {
-        if (!element) {
+        const scrollElement = ReaderControls.getScrollableElement(element);
+        if (!scrollElement) {
             return;
         }
 
         const themeDirectionOfReadingDirection = READING_DIRECTION_TO_THEME_DIRECTION[readingDirection];
         const isContinuousReadingModeActive = isContinuousReadingMode(readingMode);
 
-        const isAtStartY = Math.abs(element.scrollTop) <= 1;
+        const isAtStartY = Math.abs(scrollElement.scrollTop) <= 1;
         const isAtEndY =
-            Math.floor(element.scrollTop) === element.scrollHeight - element.clientHeight ||
-            Math.ceil(element.scrollTop) === element.scrollHeight - element.clientHeight;
-        const isAtStartX = Math.floor(Math.abs(element.scrollLeft)) === 0;
+            Math.floor(scrollElement.scrollTop) === scrollElement.scrollHeight - scrollElement.clientHeight ||
+            Math.ceil(scrollElement.scrollTop) === scrollElement.scrollHeight - scrollElement.clientHeight;
+        const isAtStartX = Math.floor(Math.abs(scrollElement.scrollLeft)) === 0;
         const isAtEndX =
-            Math.floor(Math.abs(element.scrollLeft)) === element.scrollWidth - element.clientWidth ||
-            Math.ceil(Math.abs(element.scrollLeft)) === element.scrollWidth - element.clientWidth;
+            Math.floor(Math.abs(scrollElement.scrollLeft)) === scrollElement.scrollWidth - scrollElement.clientWidth ||
+            Math.ceil(Math.abs(scrollElement.scrollLeft)) === scrollElement.scrollWidth - scrollElement.clientWidth;
 
         const scrollAmount = scrollAmountPercentage / 100;
         const scrollDirection = getScrollDirectionInvert(direction, offset, themeDirectionOfReadingDirection);
@@ -133,7 +148,7 @@ export class ReaderControls {
                 return;
             }
 
-            element.scroll({
+            scrollElement.scroll({
                 ...scrollToOptions,
                 behavior: 'smooth',
             });
@@ -142,11 +157,13 @@ export class ReaderControls {
         switch (direction) {
             case ScrollDirection.X:
                 doScroll(isAtStartX, isAtEndX, {
-                    left: getNewScrollPosition(element.scrollLeft, element.clientWidth),
+                    left: getNewScrollPosition(scrollElement.scrollLeft, scrollElement.clientWidth),
                 });
                 break;
             case ScrollDirection.Y:
-                doScroll(isAtStartY, isAtEndY, { top: getNewScrollPosition(element.scrollTop, element.clientHeight) });
+                doScroll(isAtStartY, isAtEndY, {
+                    top: getNewScrollPosition(scrollElement.scrollTop, scrollElement.clientHeight),
+                });
                 break;
             default:
                 throw new Error(`Unexpected "ScrollDirection" (${direction})`);
@@ -531,7 +548,8 @@ export class ReaderControls {
     }
 
     static handleClick(scrollElement: HTMLElement | null, e: React.MouseEvent<HTMLDivElement, MouseEvent>): void {
-        if (!scrollElement) {
+        const effectiveScrollElement = ReaderControls.getScrollableElement(scrollElement);
+        if (!effectiveScrollElement) {
             return;
         }
 
@@ -560,7 +578,7 @@ export class ReaderControls {
                         scrollDirection,
                         readingMode.value,
                         readingDirection.value,
-                        scrollElement,
+                        effectiveScrollElement,
                         scrollAmount,
                     );
                 } else {
