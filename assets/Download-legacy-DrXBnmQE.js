@@ -1,0 +1,1 @@
+System.register(["./index-legacy-DUywJUBW.js"],function(e,t){var n,s,r;return{setters:[function(e){n=e.Pa,s=e.us}],execute:function(){r=s(),e("t",n((0,r.jsx)("path",{d:"M5 20h14v-2H5zM19 9h-4V3H9v6H5l7 7z"}),"Download"))}}});

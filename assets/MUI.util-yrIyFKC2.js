@@ -1,0 +1,1 @@
+function e(e,...t){let n={...e};for(let e of t)for(let t in e){let r=e[t],i=n[t];typeof i==`function`&&typeof r==`function`?n[t]=(...e)=>(i(...e),r(...e)):n[t]=r}return n}var t=class t{static preventRipple(){return e=>e.stopPropagation()}static preventRippleProp(...n){return e(n[0],...n.slice(1),{onMouseDown:t.preventRipple(),onTouchStart:t.preventRipple()})}};export{t};

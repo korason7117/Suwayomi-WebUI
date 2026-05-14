@@ -1,0 +1,1 @@
+var e=function(e){return e.SOURCE_DEPRECATED=`source`,e.SOURCES=`sources`,e.EXTENSIONS=`extensions`,e.MIGRATE=`migrate`,e}({});export{e as t};

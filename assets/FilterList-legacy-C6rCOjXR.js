@@ -1,0 +1,1 @@
+System.register(["./index-legacy-DUywJUBW.js"],function(t,e){var n,s,i;return{setters:[function(t){n=t.Pa,s=t.us}],execute:function(){i=s(),t("t",n((0,i.jsx)("path",{d:"M10 18h4v-2h-4zM3 6v2h18V6zm3 7h12v-2H6z"}),"FilterList"))}}});

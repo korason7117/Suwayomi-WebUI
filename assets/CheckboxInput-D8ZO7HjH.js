@@ -1,0 +1,1 @@
+import{us as e}from"./index-D-GC-6mB.js";import{n as t,t as n}from"./FormControlLabel-Corwz3cu.js";var r=e(),i=({label:e,sx:i,...a})=>(0,r.jsx)(n,{control:(0,r.jsx)(t,{...a}),label:e,sx:i});export{i as t};
