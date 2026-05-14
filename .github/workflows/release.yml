@@ -15,8 +15,6 @@ jobs:
   release:
     name: Create changelog, build artifacts and publish release
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
 
     steps:
       - name: Cancel previous runs
@@ -81,5 +79,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: "master/buildZip/*"
+          owner: "korason7117"
+          repo: "Suwayomi-WebUI"
           tag: ${{ steps.GenTagName.outputs.value }}
           draft: true

@@ -1,32 +1,38 @@
-name: CI build
+name: Release
 
 on:
-  push:
-    branches:
-      - master
+  workflow_dispatch:
+    inputs:
+      release_version:
+        description: "Release version"
+        required: true
+
+defaults:
+  run:
+    working-directory: master
 
 jobs:
-  build:
-    name: Build artifacts
-    if: "!startsWith(github.event.head_commit.message, '[SKIP CI]')"
+  release:
+    name: Create changelog, build artifacts and publish release
     runs-on: ubuntu-latest
 
     steps:
       - name: Cancel previous runs
         uses: styfle/cancel-workflow-action@0.12.1
         with:
-          access_token: ${{ github.token }}
+          access_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Checkout repository
+      - name: Checkout master branch
         uses: actions/checkout@v4
         with:
+          ref: master
+          path: master
           fetch-depth: 0
 
-      - name: Setup Node.js
+      - name: Set up NodeJs
         uses: actions/setup-node@v4
         with:
-          node-version-file: package.json
-          cache: yarn
+          node-version-file: "./master/package.json"
 
       - uses: pnpm/action-setup@v4.2.0
         name: Install pnpm
@@ -52,29 +58,37 @@ jobs:
       - name: Generate Tag Name
         id: GenTagName
         run: |
-          genTag="r$(git rev-list HEAD --count)"
-          echo "$genTag"
+          genTag="v${{ github.event.inputs.release_version }}"
           echo "::set-output name=value::$genTag"
 
-      - name: Create Git Tag
+      - name: Build webUI
+        run: |
+          yarn ci
+          yarn build
+          yarn build-zip
+          yarn build-md5
+
+      - name: Rename artifact
+        run: |
+          cd buildZip
+          for file in *.zip; do
+            mv "$file" "${file%-r$(git rev-list HEAD --count).zip}-${{ steps.GenTagName.outputs.value }}.zip"
+          done
+
+      - name: Create Tag
         run: |
           TAG="${{ steps.GenTagName.outputs.value }}"
-
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
 
-          git tag "$TAG"
-          git push origin "$TAG"
+          git tag $TAG
+          git push origin $TAG
 
-      - name: Create Release
+      - name: Upload Release
         uses: ncipollo/release-action@v1
         with:
-          token: ${{ github.token }}
-          artifacts: "buildZip/*"
+          artifacts: "master/buildZip/*"
+          owner: "korason7117"
+          repo: "Suwayomi-WebUI"
           tag: ${{ steps.GenTagName.outputs.value }}
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ github.token }}
-          publish_dir: ./build
+          draft: true
