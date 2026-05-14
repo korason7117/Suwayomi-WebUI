@@ -23,6 +23,7 @@ jobs:
           ref: master
           path: master
           fetch-depth: 0
+          token: ${{ github.token }}
 
       - name: Set up NodeJs
         uses: actions/setup-node@v4
