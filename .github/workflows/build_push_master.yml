@@ -47,11 +47,16 @@ jobs:
           echo "::set-output name=value::$genTag"
 
       - name: Create Git Tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           TAG="${{ steps.GenTagName.outputs.value }}"
 
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+
+          git remote set-url origin \
+            https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}
 
           git tag "$TAG"
           git push origin "$TAG"
