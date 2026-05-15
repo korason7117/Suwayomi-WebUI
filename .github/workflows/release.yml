@@ -2,10 +2,9 @@ name: Release
 
 on:
   workflow_dispatch:
-    inputs:
-      release_version:
-        description: 'Release version'
-        required: true
+  push:
+    branches:
+      - master
 
 defaults:
   run:
@@ -49,7 +48,7 @@ jobs:
       - name: Generate Tag Name
         id: GenTagName
         run: |
-          genTag="v${{ github.event.inputs.release_version }}"
+          genTag="r$(git rev-list HEAD --count)"
           echo "::set-output name=value::$genTag"
 
       - name: Build webUI
@@ -58,13 +57,6 @@ jobs:
           pnpm build
           pnpm build-zip
           pnpm build-md5
-
-      - name: Rename artifact
-        run: |
-          cd buildZip
-          for file in *.zip; do
-            mv "$file" "${file%-r$(git rev-list HEAD --count).zip}-${{ steps.GenTagName.outputs.value }}.zip"
-          done
 
       - name: Create Tag
         run: |
@@ -82,4 +74,3 @@ jobs:
           owner: "korason7117"
           repo: "Suwayomi-WebUI"
           tag: ${{ steps.GenTagName.outputs.value }}
-          draft: true
