@@ -160,6 +160,33 @@ const GLOBAL_READER_SETTING_OBJECT: Record<keyof IReaderSettingsGlobal, undefine
 
 export const GLOBAL_READER_SETTING_KEYS = Object.keys(GLOBAL_READER_SETTING_OBJECT);
 
+export const PER_PROFILE_READER_SETTINGS_DEFAULTS: Partial<Record<ReadingMode, Partial<IReaderSettingsManga>>> = {
+    [ReadingMode.SINGLE_PAGE]: {
+        readingDirection: ReadingDirection.RTL,
+        tapZoneLayout: TapZoneLayouts.RIGHT_LEFT,
+        pageScaleMode: ReaderPageScaleMode.ORIGINAL,
+    },
+    [ReadingMode.DOUBLE_PAGE]: {
+        readingDirection: ReadingDirection.RTL,
+        tapZoneLayout: TapZoneLayouts.RIGHT_LEFT,
+        pageScaleMode: ReaderPageScaleMode.HEIGHT,
+    },
+    [ReadingMode.CONTINUOUS_VERTICAL]: {
+        readingDirection: ReadingDirection.RTL,
+        tapZoneLayout: TapZoneLayouts.RIGHT_LEFT,
+        pageScaleMode: ReaderPageScaleMode.ORIGINAL,
+    },
+    [ReadingMode.WEBTOON]: {
+        readingDirection: ReadingDirection.RTL,
+        tapZoneLayout: TapZoneLayouts.L_SHAPE,
+    },
+    [ReadingMode.CONTINUOUS_HORIZONTAL]: {
+        readingDirection: ReadingDirection.RTL,
+        tapZoneLayout: TapZoneLayouts.RIGHT_LEFT,
+        pageScaleMode: ReaderPageScaleMode.ORIGINAL,
+    },
+};
+
 export const DEFAULT_READER_SETTINGS: IReaderSettings = {
     readerWidth: { value: 50, enabled: false },
     overlayMode: ReaderOverlayMode.AUTO,
@@ -167,7 +194,7 @@ export const DEFAULT_READER_SETTINGS: IReaderSettings = {
     tapZoneInvertMode: { vertical: false, horizontal: false },
     progressBarType: ProgressBarType.STANDARD,
     progressBarSize: PROGRESS_BAR_SIZE.default,
-    progressBarPosition: ProgressBarPosition.AUTO,
+    progressBarPosition: ProgressBarPosition.LEFT,
     progressBarPositionAutoVertical: ProgressBarPosition.RIGHT,
     pageScaleMode: ReaderPageScaleMode.ORIGINAL,
     shouldStretchPage: false,
@@ -176,8 +203,8 @@ export const DEFAULT_READER_SETTINGS: IReaderSettings = {
     shouldSkipFilteredChapters: false,
     shouldShowPageNumber: true,
     isStaticNav: false,
-    readingDirection: ReadingDirection.LTR,
-    readingMode: ReadingMode.SINGLE_PAGE,
+    readingDirection: ReadingDirection.RTL,
+    readingMode: ReadingMode.DOUBLE_PAGE,
     exitMode: ReaderExitMode.PREVIOUS,
     backgroundColor: ReaderBackgroundColor.THEME,
     customFilter: {
@@ -237,9 +264,9 @@ export const DEFAULT_READER_SETTINGS: IReaderSettings = {
         smooth: true,
     },
     shouldShowReadingModePreview: true,
-    shouldShowTapZoneLayoutPreview: true,
+    shouldShowTapZoneLayoutPreview: false,
     shouldInformAboutMissingChapter: true,
-    shouldInformAboutScanlatorChange: true,
+    shouldInformAboutScanlatorChange: false,
     scrollAmount: ReaderScrollAmount.LARGE,
     shouldUseInfiniteScroll: true,
     shouldShowTransitionPage: true,
