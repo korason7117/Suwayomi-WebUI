@@ -28,6 +28,7 @@ import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import {
     DEFAULT_READER_SETTINGS,
     GLOBAL_READER_SETTING_KEYS,
+    PER_PROFILE_READER_SETTINGS_DEFAULTS,
 } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { DEFAULT_DEVICE, getActiveDevice } from '@/features/device/services/Device.ts';
 import { APP_METADATA_KEY_PREFIX } from '@/features/metadata/Metadata.constants.ts';
@@ -98,14 +99,19 @@ export const getReaderSettings = (
     defaultSettings: IReaderSettings = DEFAULT_READER_SETTINGS,
     useEffectFn?: typeof useEffect,
     profile?: ReadingMode,
-): IReaderSettings =>
-    getMetadataFrom(
+): IReaderSettings => {
+    const profileDefaults = profile !== undefined ? PER_PROFILE_READER_SETTINGS_DEFAULTS[profile] : undefined;
+    const finalDefaultSettings =
+        profileDefaults !== undefined ? { ...defaultSettings, ...profileDefaults } : defaultSettings;
+
+    return getMetadataFrom(
         type as Parameters<typeof getMetadataFrom>[0],
         metadataHolder as Parameters<typeof getMetadataFrom>[1],
-        defaultSettings,
+        finalDefaultSettings,
         profile !== undefined ? [profile.toString()] : undefined,
         useEffectFn,
     );
+};
 
 function getReaderSettingsWithDefaultValueFallback(
     type: 'global',
