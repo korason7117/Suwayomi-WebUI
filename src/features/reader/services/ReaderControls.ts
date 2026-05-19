@@ -591,8 +591,10 @@ class ReaderControlsClass {
         const { readingMode, readingDirection, isStaticNav, scrollAmount } = getReaderSettingsStore();
 
         const rect = e.currentTarget.getBoundingClientRect();
-        const rectRelativeX = e.clientX - rect.left;
-        const rectRelativeY = e.clientY - rect.top;
+        const isWindowScroll = effectiveScrollElement === (document.scrollingElement as HTMLElement | null);
+
+        const rectRelativeX = isWindowScroll ? e.clientX - (rect.left + window.scrollX) : e.clientX - rect.left;
+        const rectRelativeY = isWindowScroll ? e.clientY : e.clientY - rect.top;
         const action = ReaderTapZoneService.getAction(rectRelativeX, rectRelativeY);
 
         getReaderTapZoneStore().setShowPreview(false);
