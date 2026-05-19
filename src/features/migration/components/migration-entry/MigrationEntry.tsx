@@ -14,8 +14,6 @@ import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { MigrationSourceEntry } from '@/features/migration/components/migration-entry/MigrationSourceEntry.tsx';
 import { MigrationDestinationEntry } from '@/features/migration/components/migration-entry/MigrationDestinationEntry.tsx';
-import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
-import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { MigrationMatchedEntry } from '@/features/migration/components/migration-entry/MigrationMatchedEntry.tsx';
 import { MigrationEntrySearchExcludeActions } from '@/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx';
 import Typography from '@mui/material/Typography';
@@ -70,12 +68,7 @@ const MigrationEntryMobile = memo(
                             startIcon={<SearchIcon />}
                             variant="text"
                             onClick={() => {
-                                ReactRouter.navigate(
-                                    AppRoutes.migrate.childRoutes.manualSearch.path(mangaId, mangaTitle),
-                                    {
-                                        state: { mangaTitle: mangaTitle },
-                                    },
-                                );
+                                MigrationManager.openManualSearch(mangaId, mangaTitle);
                             }}
                         >{t`Manual search`}</Button>
                     </Stack>
@@ -212,7 +205,22 @@ export const MigrationEntry = memo(
             () =>
                 entry.searchMatches
                     .filter((searchMatch) => searchMatch.id !== entry.selectedMatchMangaId)
-                    .sort((a, b) => (b.latestChapterNumber ?? 0) - (a.latestChapterNumber ?? 0)),
+                    .sort((a, b) => {
+                        const sortByLatestChapter = (b.latestChapterNumber ?? 0) - (a.latestChapterNumber ?? 0);
+                        if (sortByLatestChapter) {
+                            return sortByLatestChapter;
+                        }
+
+                        const aSourcePriority = MigrationManager.getSourcePriority(entry.sourceId, a.sourceId);
+                        const bSourcePriority = MigrationManager.getSourcePriority(entry.sourceId, b.sourceId);
+
+                        const sortBySourcePriority = bSourcePriority - aSourcePriority;
+                        if (sortBySourcePriority) {
+                            return sortBySourcePriority;
+                        }
+
+                        return a.title.localeCompare(b.title);
+                    }),
             [entry.searchMatches, entry.selectedMatchMangaId],
         );
 

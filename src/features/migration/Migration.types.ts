@@ -72,6 +72,8 @@ export type MetadataMigrationSettings = {
 export interface MigrationBulkSearchSettings {
     selectHighestChapterNumberSource: boolean;
     ignoreOutdatedMatches: boolean;
+    requireAdditionalChapters: boolean;
+    ignoreWithMissingChapters: boolean;
     performAdvancedSearch: boolean;
 }
 
@@ -101,6 +103,7 @@ export interface MigrationMatch
     extends MangaIdInfo, MangaTitleInfo, MangaThumbnailInfo, MangaSourceIdInfo, MangaArtistInfo, MangaAuthorInfo {
     sourceTitle: SourceDisplayNameInfo['displayName'] | undefined;
     latestChapterNumber: ChapterNumberInfo['chapterNumber'] | undefined;
+    missingChapters: number | undefined;
 }
 
 export interface TMigrationEntry {
@@ -109,6 +112,7 @@ export interface TMigrationEntry {
     mangaArtist: MangaArtistInfo['artist'];
     mangaAuthor: MangaAuthorInfo['author'];
     latestChapterNumber: ChapterNumberInfo['chapterNumber'] | undefined;
+    missingChapters: number | undefined;
     mangaThumbnailUrl: MangaThumbnailInfo['thumbnailUrl'] | undefined;
     sourceId: SourceIdInfo['id'];
     sourceTitle: SourceDisplayNameInfo['displayName'] | undefined;
@@ -121,6 +125,7 @@ export interface TMigrationEntry {
     error: string | undefined;
     isExcluded: boolean;
     areMatchesExpanded: boolean;
+    isManualSelection: boolean;
 }
 
 export type MigratableEntry = NonNullableProperty<TMigrationEntry, 'selectedMatchMangaId' | 'selectedMatchSourceId'>;
