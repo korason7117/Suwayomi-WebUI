@@ -133,7 +133,7 @@ const BaseReaderTransitionPage = ({
                 alignItems: 'center',
                 ...applyStyles(!isContinuousReadingMode(readingMode), {
                     width: '100%',
-                    height: '100%',
+                    height: `calc(100vh - ${scrollbar.xSize}px)`,
                 }),
                 ...applyStyles(isContinuousReadingMode(readingMode), {
                     position: 'sticky',
