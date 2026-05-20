@@ -149,12 +149,8 @@ const BaseReaderViewer = ({
         [chapters, initialChapter?.id],
     );
     const chaptersToRender = useMemo(
-        () =>
-            chapters.slice(
-                Math.max(0, initialChapterIndex - visibleChapters.trailing),
-                Math.min(chapters.length, initialChapterIndex + visibleChapters.leading + 1),
-            ),
-        [chapters, initialChapterIndex, visibleChapters.trailing, visibleChapters.leading],
+        () => [currentChapter],
+        [currentChapter],
     );
     const currentChapterIndex = useMemo(
         () => chaptersToRender.findIndex((chapter) => chapter.id === currentChapter?.id),
