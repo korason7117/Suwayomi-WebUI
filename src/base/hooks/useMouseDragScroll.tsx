@@ -48,6 +48,15 @@ export const useMouseDragScroll = (
             return () => {};
         }
 
+        const getScrollElement = (): HTMLElement => {
+            const hasVerticalOverflow = Math.abs(element.scrollHeight - element.clientHeight) > 1;
+            const hasHorizontalOverflow = Math.abs(element.scrollWidth - element.clientWidth) > 1;
+            if (hasVerticalOverflow || hasHorizontalOverflow) {
+                return element;
+            }
+            return (document.scrollingElement as HTMLElement) ?? element;
+        };
+
         const isRTL = () => {
             if (!elementStyle.current) {
                 elementStyle.current = getComputedStyle(element);
@@ -78,15 +87,16 @@ export const useMouseDragScroll = (
         };
 
         const inertiaMove = () => {
+            const scrollElement = getScrollElement();
             const calcVelocity = (positions: Positions, clickTimes: ClickTimes, size: number): number =>
                 (((positions[LATEST] - positions[OLDEST]) / (clickTimes[LATEST] - clickTimes[OLDEST])) * 1000) / size;
 
             const v0 = [
                 handleScrollX
-                    ? calcVelocity(previousClickPosX.current, previousClickTime.current, element.clientWidth)
+                    ? calcVelocity(previousClickPosX.current, previousClickTime.current, scrollElement.clientWidth)
                     : 0,
                 handleScrollY
-                    ? calcVelocity(previousClickPosY.current, previousClickTime.current, element.clientHeight)
+                    ? calcVelocity(previousClickPosY.current, previousClickTime.current, scrollElement.clientHeight)
                     : 0,
             ];
 
@@ -123,12 +133,12 @@ export const useMouseDragScroll = (
                     (37.43 * t ** 4) / a0VCoerced / a0VCoerced);
 
             const delta = [
-                calcDelta(element.clientWidth, unitVector[X]),
-                calcDelta(element.clientHeight, unitVector[Y]),
+                calcDelta(scrollElement.clientWidth, unitVector[X]),
+                calcDelta(scrollElement.clientHeight, unitVector[Y]),
             ];
             const maxScrollPos = [
-                element.scrollWidth - element.clientWidth,
-                element.scrollHeight - element.clientHeight,
+                scrollElement.scrollWidth - scrollElement.clientWidth,
+                scrollElement.scrollHeight - scrollElement.clientHeight,
             ];
             const newScrollPos = [
                 coerceIn(scrollAtT0.current[X] - delta[X], isRTL() ? -maxScrollPos[X] : 0, maxScrollPos[X]),
@@ -143,11 +153,11 @@ export const useMouseDragScroll = (
             }
 
             if (handleScrollX) {
-                element.scrollLeft = newScrollPos[X];
+                scrollElement.scrollLeft = newScrollPos[X];
             }
 
             if (handleScrollY) {
-                element.scrollTop = newScrollPos[Y];
+                scrollElement.scrollTop = newScrollPos[Y];
             }
         };
 
@@ -157,9 +167,10 @@ export const useMouseDragScroll = (
                 return true;
             }
 
+            const scrollElement = getScrollElement();
             const hasScrollBar = [
-                element.clientHeight < element.scrollHeight,
-                element.clientWidth < element.scrollWidth,
+                scrollElement.clientHeight < scrollElement.scrollHeight,
+                scrollElement.clientWidth < scrollElement.scrollWidth,
             ];
             const didPosChange = [
                 Math.abs(previousClickPosX.current[LATEST] - e.pageX) > 0,
@@ -181,13 +192,14 @@ export const useMouseDragScroll = (
             previousClickPosY.current = [...(previousClickPosY.current.slice(1) as [number, number]), e.pageY];
             previousClickTime.current = [...(previousClickTime.current.slice(1) as [number, number]), Date.now()];
 
+            const scrollElement = getScrollElement();
             // Use absolute positioning from initial drag position to prevent drift
             if (handleScrollX) {
-                element.scrollLeft = initialScrollPos.current[X] - (e.pageX - initialMousePos.current[X]);
+                scrollElement.scrollLeft = initialScrollPos.current[X] - (e.pageX - initialMousePos.current[X]);
             }
 
             if (handleScrollY) {
-                element.scrollTop = initialScrollPos.current[Y] - (e.pageY - initialMousePos.current[Y]);
+                scrollElement.scrollTop = initialScrollPos.current[Y] - (e.pageY - initialMousePos.current[Y]);
             }
         };
 
@@ -201,7 +213,8 @@ export const useMouseDragScroll = (
                 setIsDragging(false);
             }, 0);
 
-            scrollAtT0.current = [element.scrollLeft, element.scrollTop];
+            const scrollElement = getScrollElement();
+            scrollAtT0.current = [scrollElement.scrollLeft, scrollElement.scrollTop];
 
             const inertiaLoop = () => {
                 inertiaMove();
@@ -218,9 +231,11 @@ export const useMouseDragScroll = (
 
             e.preventDefault();
 
+            const scrollElement = getScrollElement();
+
             // Store initial positions for absolute positioning during drag
             initialMousePos.current = [e.pageX, e.pageY];
-            initialScrollPos.current = [element.scrollLeft, element.scrollTop];
+            initialScrollPos.current = [scrollElement.scrollLeft, scrollElement.scrollTop];
 
             previousClickPosX.current = [e.pageX, e.pageX, e.pageX];
             previousClickPosY.current = [e.pageY, e.pageY, e.pageY];
