@@ -173,8 +173,8 @@ export const useMouseDragScroll = (
                 scrollElement.clientWidth < scrollElement.scrollWidth,
             ];
             const didPosChange = [
-                Math.abs(previousClickPosX.current[LATEST] - e.pageX) > 0,
-                Math.abs(previousClickPosY.current[LATEST] - e.pageY) > 0,
+                Math.abs(previousClickPosX.current[LATEST] - e.clientX) > 0,
+                Math.abs(previousClickPosY.current[LATEST] - e.clientY) > 0,
             ];
 
             return (hasScrollBar[X] && didPosChange[X]) || (hasScrollBar[Y] && didPosChange[Y]);
@@ -188,18 +188,18 @@ export const useMouseDragScroll = (
             isHandlingMouseMoveEvents = true;
             setIsDragging(true);
 
-            previousClickPosX.current = [...(previousClickPosX.current.slice(1) as [number, number]), e.pageX];
-            previousClickPosY.current = [...(previousClickPosY.current.slice(1) as [number, number]), e.pageY];
+            previousClickPosX.current = [...(previousClickPosX.current.slice(1) as [number, number]), e.clientX];
+            previousClickPosY.current = [...(previousClickPosY.current.slice(1) as [number, number]), e.clientY];
             previousClickTime.current = [...(previousClickTime.current.slice(1) as [number, number]), Date.now()];
 
             const scrollElement = getScrollElement();
             // Use absolute positioning from initial drag position to prevent drift
             if (handleScrollX) {
-                scrollElement.scrollLeft = initialScrollPos.current[X] - (e.pageX - initialMousePos.current[X]);
+                scrollElement.scrollLeft = initialScrollPos.current[X] - (e.clientX - initialMousePos.current[X]);
             }
 
             if (handleScrollY) {
-                scrollElement.scrollTop = initialScrollPos.current[Y] - (e.pageY - initialMousePos.current[Y]);
+                scrollElement.scrollTop = initialScrollPos.current[Y] - (e.clientY - initialMousePos.current[Y]);
             }
         };
 
@@ -234,11 +234,11 @@ export const useMouseDragScroll = (
             const scrollElement = getScrollElement();
 
             // Store initial positions for absolute positioning during drag
-            initialMousePos.current = [e.pageX, e.pageY];
+            initialMousePos.current = [e.clientX, e.clientY];
             initialScrollPos.current = [scrollElement.scrollLeft, scrollElement.scrollTop];
 
-            previousClickPosX.current = [e.pageX, e.pageX, e.pageX];
-            previousClickPosY.current = [e.pageY, e.pageY, e.pageY];
+            previousClickPosX.current = [e.clientX, e.clientX, e.clientX];
+            previousClickPosY.current = [e.clientY, e.clientY, e.clientY];
             previousClickTime.current = [Date.now() - 2, Date.now() - 1, Date.now()];
 
             element.addEventListener('mousemove', handleMouseMove, { passive: true });
