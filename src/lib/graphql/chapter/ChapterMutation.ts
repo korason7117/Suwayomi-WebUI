@@ -56,6 +56,7 @@ export const UPDATE_CHAPTER = gql`
         $deleteChapter: Boolean!
         $mangaId: Int!
         $trackProgress: Boolean!
+        $syncRemote: Boolean
     ) {
         updateChapter(input: $input) {
             chapter {
@@ -93,7 +94,7 @@ export const UPDATE_CHAPTER = gql`
                 }
             }
         }
-        trackProgress(input: { mangaId: $mangaId }) @include(if: $trackProgress) {
+        trackProgress(input: { mangaId: $mangaId, syncRemote: $syncRemote }) @include(if: $trackProgress) {
             trackRecords {
                 ...TRACK_RECORD_BIND_FIELDS
             }
@@ -113,6 +114,7 @@ export const UPDATE_CHAPTERS = gql`
         $deleteChapters: Boolean!
         $mangaId: Int!
         $trackProgress: Boolean!
+        $syncRemote: Boolean
     ) {
         updateChapters(input: $input) {
             chapters {
@@ -150,7 +152,7 @@ export const UPDATE_CHAPTERS = gql`
                 }
             }
         }
-        trackProgress(input: { mangaId: $mangaId }) @include(if: $trackProgress) {
+        trackProgress(input: { mangaId: $mangaId, syncRemote: $syncRemote }) @include(if: $trackProgress) {
             trackRecords {
                 ...TRACK_RECORD_BIND_FIELDS
             }

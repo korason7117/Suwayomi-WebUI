@@ -268,31 +268,16 @@ export class MangaMigration {
             throw new Error('TrackRecords of manga to migrate to are missing');
         }
 
-        const trackBindingsToAdd = mangaToMigrate.trackRecords.nodes.filter((trackRecordToMigrate) =>
-            mangaToMigrateTo.trackRecords?.nodes.every(
-                (trackRecord) => trackRecordToMigrate.remoteId !== trackRecord.remoteId,
-            ),
-        );
+        const trackRecordsToCopy = mangaToMigrate.trackRecords.nodes;
 
         return {
             copy: () =>
-                trackBindingsToAdd.map(
+                trackRecordsToCopy.map(
                     (trackRecord) =>
                         MangaMigration.getOrCreateQueue(trackRecord.trackerId).enqueue(
                             String(mangaToMigrate.id),
                             async () => {
-                                try {
-                                    await requestManager.bindTracker(
-                                        mangaToMigrateTo.id,
-                                        trackRecord.trackerId,
-                                        trackRecord.remoteId,
-                                        trackRecord.private,
-                                    ).response;
-                                } finally {
-                                    await new Promise((resolve) => {
-                                        setTimeout(resolve, 500);
-                                    });
-                                }
+                                await requestManager.bindTrackerRecord(mangaToMigrateTo.id, trackRecord.id).response;
                             },
                         ).promise,
                 ),
