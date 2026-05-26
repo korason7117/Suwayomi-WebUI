@@ -931,16 +931,21 @@ export type GetChaptersHistoryQuery = {
 };
 
 export type GetMangasChapterIdsWithStateQueryVariables = Exact<{
-    mangaIds: Array<number> | number;
-    isDownloaded?: boolean | null | undefined;
-    isRead?: boolean | null | undefined;
-    isBookmarked?: boolean | null | undefined;
+    after?: string | null | undefined;
+    before?: string | null | undefined;
+    condition?: Types.ChapterConditionInput | null | undefined;
+    filter?: Types.ChapterFilterInput | null | undefined;
+    first?: number | null | undefined;
+    last?: number | null | undefined;
+    offset?: number | null | undefined;
+    order?: Array<Types.ChapterOrderInput> | Types.ChapterOrderInput | null | undefined;
 }>;
 
 export type GetMangasChapterIdsWithStateQuery = {
     __typename: 'Query';
     chapters: {
         __typename: 'ChapterNodeList';
+        totalCount: number;
         nodes: Array<{
             __typename: 'ChapterType';
             mangaId: number;
@@ -951,6 +956,13 @@ export type GetMangasChapterIdsWithStateQuery = {
             isDownloaded: boolean;
             isBookmarked: boolean;
         }>;
+        pageInfo: {
+            __typename: 'PageInfo';
+            endCursor: string | null;
+            hasNextPage: boolean;
+            hasPreviousPage: boolean;
+            startCursor: string | null;
+        };
     };
 };
 
@@ -2105,6 +2117,19 @@ export type UpdateMangaMetadataMutation = {
     } | null;
 };
 
+export type GetMangaMetaQueryVariables = Exact<{
+    id: number;
+}>;
+
+export type GetMangaMetaQuery = {
+    __typename: 'Query';
+    manga: {
+        __typename: 'MangaType';
+        id: number;
+        meta: Array<{ __typename: 'MangaMetaType'; mangaId: number; key: string; value: string }>;
+    };
+};
+
 export type GetMangaScreenQueryVariables = Exact<{
     id: number;
 }>;
@@ -2763,6 +2788,7 @@ export type ServerSettingsFragment = {
     databaseUsername: string;
     databasePassword: string;
     useHikariConnectionPool: boolean;
+    kcefEnabled: boolean;
     downloadConversions: Array<{
         __typename: 'SettingsDownloadConversionType';
         mimeType: string;
@@ -2866,6 +2892,7 @@ export type ResetServerSettingsMutation = {
             databaseUsername: string;
             databasePassword: string;
             useHikariConnectionPool: boolean;
+            kcefEnabled: boolean;
             downloadConversions: Array<{
                 __typename: 'SettingsDownloadConversionType';
                 mimeType: string;
@@ -2979,6 +3006,7 @@ export type UpdateServerSettingsMutation = {
             databaseUsername: string;
             databasePassword: string;
             useHikariConnectionPool: boolean;
+            kcefEnabled: boolean;
             downloadConversions: Array<{
                 __typename: 'SettingsDownloadConversionType';
                 mimeType: string;
@@ -3088,6 +3116,7 @@ export type GetServerSettingsQuery = {
         databaseUsername: string;
         databasePassword: string;
         useHikariConnectionPool: boolean;
+        kcefEnabled: boolean;
         downloadConversions: Array<{
             __typename: 'SettingsDownloadConversionType';
             mimeType: string;
