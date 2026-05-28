@@ -1516,10 +1516,6 @@ msgstr "Enable debug logs"
 msgid "Enable page read progress"
 msgstr "Enable page read progress"
 
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "Enable the WebView via CEF (Chromium)"
-msgstr "Enable the WebView via CEF (Chromium)"
-
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "Entries in excluded categories will not be downloaded even if they are also in included categories"
 msgstr "Entries in excluded categories will not be downloaded even if they are also in included categories"
@@ -1919,6 +1915,7 @@ msgstr ""
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/manga/components/MangaBadges.tsx
+#: src/features/migration/components/migration-entry/MigrationEntryThumbnail.tsx
 msgid "In Library"
 msgstr "In Library"
 
@@ -3929,10 +3926,6 @@ msgstr "WebUI version {0} ({1}) available for download"
 #: src/features/app-updates/components/WebUIUpdateChecker.tsx
 msgid "WebUI was updated to version {newVersion} ({0})"
 msgstr "WebUI was updated to version {newVersion} ({0})"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "WebView"
-msgstr "WebView"
 
 #: src/features/settings/Settings.constants.ts
 msgid "When you enable this, you may need to refresh this tab for the login page to appear."
