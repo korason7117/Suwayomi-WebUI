@@ -125,6 +125,8 @@ import type {
     StopUpdaterMutationVariables,
     TrackerBindMutation,
     TrackerBindMutationVariables,
+    TrackerBindRecordMutation,
+    TrackerBindRecordMutationVariables,
     TrackerFetchBindMutation,
     TrackerFetchBindMutationVariables,
     TrackerLoginCredentialsMutation,
@@ -303,6 +305,7 @@ import { SourceAwareQueue } from '@/lib/SourceAwareQueue.ts';
 import { TRACKER_SEARCH } from '@/lib/graphql/tracker/TrackerQuery.ts';
 import {
     TRACKER_BIND,
+    TRACKER_BIND_RECORD,
     TRACKER_FETCH_BIND,
     TRACKER_LOGIN_CREDENTIALS,
     TRACKER_LOGIN_OAUTH,
@@ -3668,6 +3671,19 @@ export class RequestManager {
             GQLMethod.MUTATION,
             TRACKER_BIND,
             { input: { mangaId, remoteId, trackerId, private: asPrivate } },
+            options,
+        );
+    }
+
+    public bindTrackerRecord(
+        mangaId: number,
+        recordId: number,
+        options?: MutationOptions<TrackerBindRecordMutation, TrackerBindRecordMutationVariables>,
+    ): AbortableApolloMutationResponse<TrackerBindRecordMutation> {
+        return this.doRequest<TrackerBindRecordMutation, TrackerBindRecordMutationVariables>(
+            GQLMethod.MUTATION,
+            TRACKER_BIND_RECORD,
+            { input: { mangaId, trackRecordId: recordId } },
             options,
         );
     }
