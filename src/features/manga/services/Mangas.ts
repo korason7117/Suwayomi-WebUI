@@ -119,8 +119,8 @@ export class Mangas {
         });
     }
 
-    static isNotDownloaded({ downloadCount }: MangaDownloadInfo): boolean {
-        return downloadCount === 0;
+    static isNotDownloaded({ downloadCount, chapters: { totalCount } }: MangaDownloadInfo): boolean {
+        return totalCount > 0 && downloadCount === 0;
     }
 
     static getNotDownloaded<Mangas extends MangaDownloadInfo>(mangas: Mangas[]): Mangas[] {
@@ -128,7 +128,7 @@ export class Mangas {
     }
 
     static isFullyDownloaded({ downloadCount, chapters: { totalCount } }: MangaDownloadInfo): boolean {
-        return downloadCount === totalCount;
+        return totalCount > 0 && downloadCount === totalCount;
     }
 
     static getFullyDownloaded<Mangas extends MangaDownloadInfo>(mangas: Mangas[]): Mangas[] {
@@ -136,7 +136,11 @@ export class Mangas {
     }
 
     static isPartiallyDownloaded(manga: MangaDownloadInfo): boolean {
-        return !Mangas.isNotDownloaded(manga) && !Mangas.isFullyDownloaded(manga);
+        const {
+            chapters: { totalCount },
+        } = manga;
+
+        return totalCount > 0 && !Mangas.isNotDownloaded(manga) && !Mangas.isFullyDownloaded(manga);
     }
 
     static getPartiallyDownloaded<Mangas extends MangaDownloadInfo>(mangas: Mangas[]): Mangas[] {
@@ -144,15 +148,15 @@ export class Mangas {
     }
 
     static isUnread({ unreadCount, chapters: { totalCount } }: MangaUnreadInfo): boolean {
-        return unreadCount === totalCount;
+        return totalCount > 0 && unreadCount === totalCount;
     }
 
     static getUnread<Mangas extends MangaUnreadInfo>(mangas: Mangas[]): Mangas[] {
         return mangas.filter(Mangas.isUnread);
     }
 
-    static isFullyRead({ unreadCount }: MangaUnreadInfo): boolean {
-        return unreadCount === 0;
+    static isFullyRead({ unreadCount, chapters: { totalCount } }: MangaUnreadInfo): boolean {
+        return totalCount > 0 && unreadCount === 0;
     }
 
     static getFullyRead<Mangas extends MangaUnreadInfo>(mangas: Mangas[]): Mangas[] {
@@ -160,7 +164,11 @@ export class Mangas {
     }
 
     static isPartiallyRead(manga: MangaUnreadInfo): boolean {
-        return !Mangas.isUnread(manga) && !Mangas.isFullyRead(manga);
+        const {
+            chapters: { totalCount },
+        } = manga;
+
+        return totalCount > 0 && !Mangas.isUnread(manga) && !Mangas.isFullyRead(manga);
     }
 
     static getPartiallyRead<Mangas extends MangaUnreadInfo>(mangas: Mangas[]): Mangas[] {
@@ -197,11 +205,17 @@ export class Mangas {
         const { data } = await requestManager.getChapters<
             GetMangasChapterIdsWithStateQuery,
             GetMangasChapterIdsWithStateQueryVariables
-        >(GET_MANGAS_CHAPTER_IDS_WITH_STATE, {
-            filter: { mangaId: { in: mangaIds }, scanlator: { notIncludesInsensitiveAny: excludedScanlators } },
-            condition: { ...state },
-            order: [{ by: ChapterOrderBy.SourceOrder }],
-        }).response;
+        >(
+            GET_MANGAS_CHAPTER_IDS_WITH_STATE,
+            {
+                filter: { mangaId: { in: mangaIds }, scanlator: { notIncludesInsensitiveAny: excludedScanlators } },
+                condition: { ...state },
+                order: [{ by: ChapterOrderBy.SourceOrder }],
+            },
+            {
+                fetchPolicy: 'network-only',
+            },
+        ).response;
 
         return data?.chapters.nodes ?? [];
     }
