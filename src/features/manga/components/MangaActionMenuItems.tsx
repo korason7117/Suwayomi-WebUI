@@ -44,6 +44,7 @@ import type {
 import { MANGA_ACTION_TO_TRANSLATION } from '@/features/manga/Manga.constants.ts';
 import { CategorySelect } from '@/features/category/components/CategorySelect.tsx';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
+import { getMangaActionMenuVisibility } from '@/features/manga/utils/MangaActionMenuVisibility.ts';
 
 type BaseProps = { onClose: () => void; setHideMenu: (hide: boolean) => void };
 
@@ -82,10 +83,14 @@ export const MangaActionMenuItems = ({
     const shouldShowMenuItem = createShouldShowMenuItem(isSingleMode);
     const isMenuItemDisabled = createIsMenuItemDisabled(isSingleMode);
 
-    const isDownloadable = !!manga && !!manga.chapters.totalCount && !Mangas.isFullyDownloaded(manga);
-    const hasDownloadedChapters = manga && Mangas.isPartiallyDownloaded(manga);
-    const hasUnreadChapters = manga && Mangas.isPartiallyRead(manga);
-    const hasReadChapters = !!manga && Mangas.isPartiallyRead(manga);
+    const { canDownload, hasDownloadedChapters, hasUnreadChapters, hasReadChapters } = manga
+        ? getMangaActionMenuVisibility(manga)
+        : {
+              canDownload: false,
+              hasDownloadedChapters: false,
+              hasUnreadChapters: false,
+              hasReadChapters: false,
+          };
 
     const handleSelect = () => {
         handleSelection?.(manga.id, true);
@@ -121,7 +126,7 @@ export const MangaActionMenuItems = ({
             {!!handleSelection && isSingleMode && (
                 <MenuItem onClick={handleSelect} Icon={CheckBoxOutlineBlank} title={t`Select`} />
             )}
-            {shouldShowMenuItem(isDownloadable) && (
+            {shouldShowMenuItem(canDownload) && (
                 <NestedMenuItem
                     disabled={isMenuItemDisabled(!downloadableMangas.length)}
                     LeftIcon={Download}
