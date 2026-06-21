@@ -307,7 +307,7 @@ const BaseReaderChapterViewer = ({
         return (
             <Box
                 sx={{
-                    minHeight: '100%',
+                    minHeight: '100vh',
                     minWidth: '100%',
                     display: 'grid',
                     placeItems: 'center',
@@ -333,7 +333,7 @@ const BaseReaderChapterViewer = ({
         return (
             <Box
                 sx={{
-                    minHeight: '100%',
+                    minHeight: '100vh',
                     minWidth: '100%',
                     display: 'grid',
                     placeItems: 'center',
@@ -350,7 +350,7 @@ const BaseReaderChapterViewer = ({
         }
 
         return (
-            <Box sx={{ minWidth: '100%', minHeight: '100%', position: 'relative' }}>
+            <Box sx={{ minWidth: '100%', minHeight: '100vh', position: 'relative' }}>
                 <EmptyViewAbsoluteCentered message={t`No pages found`} retry={doFetchPages} />
             </Box>
         );
