@@ -30,6 +30,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Migration**) Show the exclude/include button only for an entry with a selected match
 - (**Migration**) Allow resuming a migration only in a secure context (localhost or https)
 - (**Migration**) Show dialog on manual search selection to optionally open the search result entry instead of selecting it
+- (**Migration**) Show "manual search matches" under "other matches"
 - (**Source/Extension**) Rename language "All" to "Multi"
 - (**Reader**) Simplify changing settings in desktop sidebar
 - (**Reader**) Ignore tap zone clicks while window does not have focus
@@ -54,6 +55,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Migration**) Fix selecting a destination from a source browse search page
 - (**Migration**) Fix being able to migrate an entry to itself
 - (**Migration**) Fix resuming migration when app is opened in multiple tabs
+- (**Migration**) Fix showing "All source searches failed" error while the entry has a selected destination source or matches were found
+- (**Migration**) Fix showing empty expanded "other matches" when selecting the only match
 - (**Reader**) Fix scrollbar appearing with "fit to widt/height/screen" page scale mode and applied safe area insets
 - (**Reader**) Fix wrongly positioned mobile progress bar current page indicator
 - (**Reader**) Fix mobile progress bar previous/next chapter button visibility on hover and while disabled
