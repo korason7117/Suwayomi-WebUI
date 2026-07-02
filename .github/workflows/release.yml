@@ -9,7 +9,7 @@ on:
 
 defaults:
   run:
-    working-directory: before-progress-sync-merge
+    working-directory: master
 
 jobs:
   release:
@@ -22,11 +22,11 @@ jobs:
         with:
           access_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Checkout master branch
+      - name: Checkout before-progress-sync-merge branch
         uses: actions/checkout@v4
         with:
-          ref: master
-          path: master
+          ref: before-progress-sync-merge
+          path: before-progress-sync-merge
           fetch-depth: 0
 
       - name: Set up NodeJs
