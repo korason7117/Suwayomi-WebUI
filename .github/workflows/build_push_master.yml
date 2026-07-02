@@ -3,7 +3,7 @@ name: CI build
 on:
   push:
     branches:
-      - master
+      - before-progress-sync-merge
 
 jobs:
   build:
@@ -17,17 +17,17 @@ jobs:
         with:
           access_token: ${{ github.token }}
 
-      - name: Checkout master branch
+      - name: Checkout before-progress-sync-merge branch
         uses: actions/checkout@v4
         with:
-          ref: master
-          path: master
+          ref: before-progress-sync-merge
+          path: before-progress-sync-merge
           fetch-depth: 0
 
       - name: Set up NodeJs
         uses: actions/setup-node@v4
         with:
-          node-version-file: './master/package.json'
+          node-version-file: './before-progress-sync-merge/package.json'
 
       - uses: pnpm/action-setup@v4.2.0
         name: Install pnpm
@@ -43,7 +43,7 @@ jobs:
 
       - name: Build webUI
         run: |
-          cd master
+          cd before-progress-sync-merge
           pnpm ci
           pnpm build
           pnpm build-zip
@@ -53,7 +53,7 @@ jobs:
       - name: Generate Tag Name
         id: GenTagName
         run: |
-          cd master/build
+          cd before-progress-sync-merge/build
           genTag="r$(git rev-list HEAD --count)"
           echo "$genTag"
           echo "::set-output name=value::$genTag"
@@ -85,7 +85,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           token: ${{ secrets.BUILD_PREVIEW_TOKEN }}
-          artifacts: "master/buildZip/*"
+          artifacts: "before-progress-sync-merge/buildZip/*"
           owner: "korason7117"
           repo: "Suwayomi-WebUI-preview"
           tag: ${{ steps.GenTagName.outputs.value }}
@@ -102,7 +102,7 @@ jobs:
       #   run: |
       #     TAG="${{ steps.GenTagName.outputs.value }}"
       #     rm -rf gh-pages/*
-      #     cp -r master/build/* gh-pages
+      #     cp -r before-progress-sync-merge/build/* gh-pages
       #     cd gh-pages
       #     cp index.html 404.html
       #     git add -A
