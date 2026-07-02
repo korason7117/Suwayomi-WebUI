@@ -32,7 +32,7 @@ jobs:
       - name: Set up NodeJs
         uses: actions/setup-node@v4
         with:
-          node-version-file: './master/package.json'
+          node-version-file: './before-progress-sync-merge/package.json'
 
       - uses: pnpm/action-setup@v4.2.0
         name: Install pnpm
@@ -78,7 +78,7 @@ jobs:
       - name: Upload Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "master/buildZip/*"
+          artifacts: "before-progress-sync-merge/buildZip/*"
           owner: "korason7117"
           repo: "Suwayomi-WebUI"
           tag: ${{ steps.GenTagName.outputs.value }}
