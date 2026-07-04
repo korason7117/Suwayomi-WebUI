@@ -9,7 +9,7 @@ on:
 
 defaults:
   run:
-    working-directory: before-progress-sync-merge
+    working-directory: master
 
 jobs:
   release:
@@ -22,17 +22,17 @@ jobs:
         with:
           access_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Checkout before-progress-sync-merge branch
+      - name: Checkout master branch
         uses: actions/checkout@v4
         with:
-          ref: before-progress-sync-merge
-          path: before-progress-sync-merge
+          ref: master
+          path: master
           fetch-depth: 0
 
       - name: Set up NodeJs
         uses: actions/setup-node@v4
         with:
-          node-version-file: './before-progress-sync-merge/package.json'
+          node-version-file: './master/package.json'
 
       - uses: pnpm/action-setup@v4.2.0
         name: Install pnpm
@@ -78,7 +78,7 @@ jobs:
       - name: Upload Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "before-progress-sync-merge/buildZip/*"
+          artifacts: "master/buildZip/*"
           owner: "korason7117"
           repo: "Suwayomi-WebUI"
           tag: ${{ steps.GenTagName.outputs.value }}
