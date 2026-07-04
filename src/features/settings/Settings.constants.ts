@@ -38,7 +38,7 @@ export const MANGA_GRID_WIDTH = {
     min: 100,
     max: 1000,
     step: 10,
-    default: 300,
+    default: 230,
 };
 
 export const SERVER_SETTINGS_METADATA_DEFAULT: MetadataServerSettings = {

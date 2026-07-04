@@ -43,7 +43,7 @@ export function NavBarContextProvider({ children }: IProps) {
         status: false,
         value: <div />,
     });
-    const [isCollapsed, setIsCollapsed] = useLocalStorage('NavBar::isCollapsed', false);
+    const [isCollapsed, setIsCollapsed] = useLocalStorage('NavBar::isCollapsed', true);
     const [navBarWidth, setNavBarWidth] = useState(0);
     const [readerNavBarWidth, setReaderNavBarWidth] = useState(0);
     const [bottomBarHeight, setBottomBarHeight] = useState(0);
