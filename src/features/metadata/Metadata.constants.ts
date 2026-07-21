@@ -200,6 +200,9 @@ export const APP_METADATA: Record<
     hasStatus: {
         convert: convertToObject<LibraryOptions['hasStatus']>,
     },
+    hasSource: {
+        convert: convertToObject<LibraryOptions['hasSource']>,
+    },
     customThemes: {
         convert: convertToObject<MetadataThemeSettings['customThemes']>,
     },
@@ -332,6 +335,9 @@ export const APP_METADATA: Record<
     shouldInformAboutScanlatorChange: {
         convert: convertToBoolean,
     },
+    shouldWakeLockScreen: {
+        convert: convertToBoolean,
+    },
     hideHistory: {
         convert: convertToBoolean,
     },
@@ -437,6 +443,7 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     'hasDuplicateChapters',
     'hasTrackerBinding',
     'hasStatus',
+    'hasSource',
     // sort
     'sortBy',
     'sortDesc',

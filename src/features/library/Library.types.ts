@@ -28,7 +28,8 @@ export type LibrarySortMode =
     | 'dateAdded'
     | 'lastRead'
     | 'latestFetchedChapter'
-    | 'latestUploadedChapter';
+    | 'latestUploadedChapter'
+    | 'random';
 
 export interface LibraryOptions {
     // sort options
@@ -43,6 +44,7 @@ export interface LibraryOptions {
     hasDuplicateChapters: NullAndUndefined<boolean>;
     hasTrackerBinding: Record<TrackerIdInfo['id'], NullAndUndefined<boolean>>;
     hasStatus: Record<MangaStatus, NullAndUndefined<boolean>>;
+    hasSource: Record<string, NullAndUndefined<boolean>>;
 }
 
 export type TMangaDuplicate = MangaIdInfo & MangaTitleInfo & MangaDescriptionInfo;
