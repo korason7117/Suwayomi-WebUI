@@ -24,8 +24,8 @@ msgid "{progress}% | Updating…"
 msgstr "{progress}% | Bijgewerkt…"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
-msgid "A-Z"
-msgstr "A-Z"
+msgid "A—Z"
+msgstr "A—Z"
 
 #: src/base/components/settings/MutableListSetting.tsx
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
@@ -266,11 +266,6 @@ msgstr "Comfortabel rooster"
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Compact grid"
 msgstr "Compakt rooster"
-
-#: src/features/manga/components/details/MangaDetails.tsx
-#: src/features/reader/overlay/mobile/ReaderOverlayHeaderMobile.tsx
-msgid "Copied to clipboard"
-msgstr "Gekopieerd naar klembord"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/migration/components/MigrationSingleMangaDialog.tsx

@@ -33,8 +33,8 @@ msgid "A preview focused web frontend built with svelte"
 msgstr "Веб-фронтенд, ориентированный на предварительный просмотр, созданный с помощью svelte"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
-msgid "A-Z"
-msgstr "А-Я"
+msgid "A—Z"
+msgstr "А—Я"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
 #: src/features/settings/screens/About.tsx
@@ -572,11 +572,6 @@ msgstr ""
 #: src/features/settings/Settings.constants.ts
 msgid "Convert images to different formats"
 msgstr "Конвертировать изображение в разные форматы"
-
-#: src/features/manga/components/details/MangaDetails.tsx
-#: src/features/reader/overlay/mobile/ReaderOverlayHeaderMobile.tsx
-msgid "Copied to clipboard"
-msgstr "Скопированно в буфер обмена"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/migration/components/MigrationSingleMangaDialog.tsx

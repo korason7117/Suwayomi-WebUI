@@ -36,21 +36,22 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import type {
     GetCategoriesLibraryQuery,
     GetCategoriesLibraryQueryVariables,
-    GetLibraryMangaCountQuery,
-    GetLibraryMangaCountQueryVariables,
+    GetMangasCountQuery,
+    GetMangasCountQueryVariables,
     MangaChapterStatFieldsFragment,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_CATEGORIES_LIBRARY } from '@/lib/graphql/category/CategoryQuery.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
 import { MANGA_CHAPTER_STAT_FIELDS } from '@/lib/graphql/manga/MangaFragments.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { GET_LIBRARY_MANGA_COUNT } from '@/lib/graphql/manga/MangaQuery.ts';
+import { GET_MANGAS_COUNT } from '@/lib/graphql/manga/MangaQuery.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { useAppAction } from '@/features/navigation-bar/hooks/useAppAction.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { SearchParam } from '@/base/Base.types.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
+import { OffsetComponent } from '@/base/OffsetComponent.tsx';
 
 const TitleWithSizeTag = styled('span')({
     display: 'flex',
@@ -82,10 +83,10 @@ export function Library() {
     );
     const tabs = tabsData ?? STABLE_EMPTY_ARRAY;
 
-    const librarySizeResponse = requestManager.useGetMangas<
-        GetLibraryMangaCountQuery,
-        GetLibraryMangaCountQueryVariables
-    >(GET_LIBRARY_MANGA_COUNT, {});
+    const librarySizeResponse = requestManager.useGetMangas<GetMangasCountQuery, GetMangasCountQueryVariables>(
+        GET_MANGAS_COUNT,
+        { condition: { inLibrary: true } },
+    );
 
     const librarySize = librarySizeResponse.data?.mangas.totalCount ?? 0;
 
@@ -106,6 +107,14 @@ export function Library() {
         showFilteredOutMessage,
         filterKey,
     } = useGetVisibleLibraryMangas(categoryMangas, activeTab);
+
+    const getTabCount = (tab: (typeof tabs)[number]) => {
+        if (mangaLoading || tab !== activeTab || mangas.length === tab.mangas.totalCount) {
+            return tab.mangas.totalCount;
+        }
+
+        return `${mangas.length}/${tab.mangas.totalCount}`;
+    };
 
     const retryFetchCategoryMangas = useCallback(
         () => refetchCategoryMangas().catch(defaultPromiseErrorHandler('Library::refetchCategoryMangas')),
@@ -207,7 +216,7 @@ export function Library() {
             {!isSelectModeActive && activeTab && (
                 <>
                     <AppbarSearch />
-                    <LibraryToolbarMenu category={activeTab} />
+                    <LibraryToolbarMenu category={activeTab} mangas={mangas} />
                     <UpdateChecker categoryId={activeTab?.id} />
                 </>
             )}
@@ -231,7 +240,7 @@ export function Library() {
                 />
             )}
         </>,
-        [isSelectModeActive, areNoItemsSelected, areAllItemsSelected, activeTab, mangas.length],
+        [isSelectModeActive, areNoItemsSelected, areAllItemsSelected, activeTab, mangas],
     );
 
     const handleTabChange = (newTab: number) => {
@@ -288,21 +297,23 @@ export function Library() {
 
     return (
         <TabsWrapper>
-            <TabsMenu value={activeTab.id} onChange={(e, newTab) => handleTabChange(newTab)}>
-                {tabs.map((tab) => (
-                    <Tab
-                        sx={{ flexGrow: 1, maxWidth: 'unset' }}
-                        key={tab.id}
-                        label={
-                            <TitleWithSizeTag>
-                                {tab.name}
-                                {showTabSize ? <TitleSizeTag label={tab.mangas.totalCount} /> : null}
-                            </TitleWithSizeTag>
-                        }
-                        value={tab.id}
-                    />
-                ))}
-            </TabsMenu>
+            <OffsetComponent>
+                <TabsMenu value={activeTab.id} onChange={(e, newTab) => handleTabChange(newTab)}>
+                    {tabs.map((tab) => (
+                        <Tab
+                            sx={{ flexGrow: 1, maxWidth: 'unset' }}
+                            key={tab.id}
+                            label={
+                                <TitleWithSizeTag>
+                                    {tab.name}
+                                    {showTabSize ? <TitleSizeTag label={getTabCount(tab)} /> : null}
+                                </TitleWithSizeTag>
+                            }
+                            value={tab.id}
+                        />
+                    ))}
+                </TabsMenu>
+            </OffsetComponent>
             {triggerGlobalSearchButton}
             {tabs.map((tab) => (
                 <TabPanel key={tab.order} index={tab.order} currentIndex={activeTab.order}>

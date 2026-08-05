@@ -8,7 +8,7 @@
 
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
-import { getErrorMessage, noOp } from '@/lib/HelperFunctions.ts';
+import { copyToClipboard, getErrorMessage, noOp } from '@/lib/HelperFunctions.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { useLingui } from '@lingui/react/macro';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
@@ -36,6 +36,7 @@ import { AwaitableComponent, type AwaitableComponentProps } from 'awaitable-comp
 import { TextSettingDialog } from '@/base/components/settings/text/TextSettingDialog.tsx';
 import { useMemo } from 'react';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
+import { ClipBoardGuard } from '@/base/components/guard/ClipBoardGuard.tsx';
 
 const ExtensionStoreCard = ({
     indexUrl,
@@ -77,7 +78,7 @@ const ExtensionStoreCard = ({
                                         {' '}
                                         +18
                                     </TypographyMaxLines>
-                                    {extensionCount && ' - '}
+                                    {extensionCount && ' — '}
                                 </>
                             ) : null}
                             {!!extensionCount &&
@@ -86,7 +87,7 @@ const ExtensionStoreCard = ({
                                     other: '# extensions',
                                 })}
                             {installedExtensionCount
-                                ? ` - ${plural(installedExtensionCount, {
+                                ? ` — ${plural(installedExtensionCount, {
                                       one: '# installed',
                                       other: '# installed',
                                   })}`
@@ -125,17 +126,18 @@ const ExtensionStoreCard = ({
                                 </IconButton>
                             </CustomTooltip>
                         )}
-                        <CustomTooltip title={t`Copy index url`}>
-                            <IconButton
-                                onClick={async () => {
-                                    await navigator.clipboard.writeText(indexUrl);
-                                    makeToast(t`Copied to clipboard`, 'info');
-                                }}
-                                color="inherit"
-                            >
-                                <ContentCopyIcon />
-                            </IconButton>
-                        </CustomTooltip>
+                        <ClipBoardGuard>
+                            <CustomTooltip title={t`Copy index url`}>
+                                <IconButton
+                                    onClick={() => {
+                                        copyToClipboard(indexUrl);
+                                    }}
+                                    color="inherit"
+                                >
+                                    <ContentCopyIcon />
+                                </IconButton>
+                            </CustomTooltip>
+                        </ClipBoardGuard>
                         <CustomTooltip disabled={loading} title={t`Delete`}>
                             <IconButton
                                 disabled={loading}

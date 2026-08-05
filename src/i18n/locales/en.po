@@ -16,8 +16,8 @@ msgstr ""
 
 #. placeholder {0}: t(SYNC_STATE_TRANSLATION[syncState])
 #: src/features/settings/screens/ServerSettings.tsx
-msgid "- State: {0}"
-msgstr "- State: {0}"
+msgid "— State: {0}"
+msgstr "— State: {0}"
 
 #. placeholder {0}: selectedChapters.length
 #. placeholder {0}: visibleChapters.length
@@ -346,8 +346,8 @@ msgid "A preview focused web frontend built with svelte"
 msgstr "A preview focused web frontend built with svelte"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
-msgid "A-Z"
-msgstr "A-Z"
+msgid "A—Z"
+msgstr "A—Z"
 
 #: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
 #: src/features/migration/screens/MigrationExecute.tsx
@@ -993,14 +993,13 @@ msgstr ""
 msgid "Convert images to different formats"
 msgstr "Convert images to different formats"
 
-#: src/features/extension/store/screens/ExtensionStores.tsx
-#: src/features/manga/components/details/MangaDetails.tsx
-#: src/features/reader/overlay/mobile/ReaderOverlayHeaderMobile.tsx
+#: src/lib/HelperFunctions.ts
 msgid "Copied to clipboard"
 msgstr "Copied to clipboard"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/migration/components/MigrationOptionsDialog.tsx
+#: src/features/settings/components/DebugInformation.tsx
 msgid "Copy"
 msgstr "Copy"
 
@@ -1038,6 +1037,10 @@ msgstr "Could not check for updates"
 msgid "Could not clear the cache"
 msgstr "Could not clear the cache"
 
+#: src/lib/HelperFunctions.ts
+msgid "Could not copy to clipboard"
+msgstr "Could not copy to clipboard"
+
 #: src/features/backup/screens/Backup.tsx
 msgid "Could not create backup"
 msgstr "Could not create backup"
@@ -1071,6 +1074,10 @@ msgstr "Could not install the extension"
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 msgid "Could not load categories"
 msgstr "Could not load categories"
+
+#: src/features/settings/components/DebugInformation.tsx
+msgid "Could not load data"
+msgstr "Could not load data"
 
 #: src/features/settings/screens/Appearance.tsx
 msgid "Could not load language"
@@ -1314,6 +1321,10 @@ msgstr "Database url"
 msgid "Day"
 msgstr "Day"
 
+#: src/features/settings/screens/About.tsx
+msgid "Debug information"
+msgstr "Debug information"
+
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 msgid "Decrease auto scroll speed"
 msgstr "Decrease auto scroll speed"
@@ -1401,8 +1412,8 @@ msgstr "Desktop"
 
 #. placeholder {0}: entry.sourceTitle
 #: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
-msgid "Destination - {0}"
-msgstr "Destination - {0}"
+msgid "Destination — {0}"
+msgstr "Destination — {0}"
 
 #: src/features/device/screens/DeviceSetting.tsx
 #: src/features/settings/screens/Settings.tsx
@@ -3357,9 +3368,15 @@ msgstr "Setting can not be changed while the reader is opened"
 msgid "Settings"
 msgstr "Settings"
 
+#: src/features/manga/components/MangaToolbarMenu.tsx
 #: src/features/reader/overlay/mobile/ReaderOverlayHeaderMobile.tsx
+#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopActions.tsx
 msgid "Share"
 msgstr "Share"
+
+#: src/features/settings/components/DebugInformation.tsx
+msgid "Show"
+msgstr "Show"
 
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Show all duplicated entries in your library"
@@ -3527,8 +3544,8 @@ msgid "Source Configuration"
 msgstr "Source Configuration"
 
 #: src/features/migration/components/migration-entry/MigrationSourceEntry.tsx
-msgid "Source entry - {sourceTitle}"
-msgstr "Source entry - {sourceTitle}"
+msgid "Source entry — {sourceTitle}"
+msgstr "Source entry — {sourceTitle}"
 
 #: src/features/chapter/components/ChapterOptions.tsx
 msgid "Source title"

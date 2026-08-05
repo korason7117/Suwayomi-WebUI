@@ -22,8 +22,8 @@ msgid "{progress}% | Updating…"
 msgstr "{progress}% | جارٍ التحديث…"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
-msgid "A-Z"
-msgstr "أ–ي"
+msgid "A—Z"
+msgstr "أ—ي"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
 #: src/features/settings/screens/About.tsx
@@ -400,11 +400,6 @@ msgstr "مكتمل"
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Continuous vertical"
 msgstr "تمرير عمودي مستمر"
-
-#: src/features/manga/components/details/MangaDetails.tsx
-#: src/features/reader/overlay/mobile/ReaderOverlayHeaderMobile.tsx
-msgid "Copied to clipboard"
-msgstr "تم النسخ إلى الحافظة"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/migration/components/MigrationSingleMangaDialog.tsx

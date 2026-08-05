@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.965Z\n"
-"PO-Revision-Date: 2026-07-21 21:31+0000\n"
-"Last-Translator: 清水汐音 <chenzhongjie19940725@gmail.com>\n"
+"PO-Revision-Date: 2026-07-24 17:01+0000\n"
+"Last-Translator: 無情天 <kofzhanganguo@126.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/suwayomi/suwayomi-webui/zh_Hans/>\n"
 "Language: zh-Hans\n"
@@ -48,7 +48,7 @@ msgid "A preview focused web frontend built with svelte"
 msgstr "使用 svelte 构建并专注于预览的 Web 前端"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
-msgid "A-Z"
+msgid "A—Z"
 msgstr "按字母顺序"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
@@ -581,11 +581,6 @@ msgstr ""
 #: src/features/settings/Settings.constants.ts
 msgid "Convert images to different formats"
 msgstr "将图片转换为其他格式"
-
-#: src/features/manga/components/details/MangaDetails.tsx
-#: src/features/reader/overlay/mobile/ReaderOverlayHeaderMobile.tsx
-msgid "Copied to clipboard"
-msgstr "已复制到剪贴板"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/migration/components/MigrationSingleMangaDialog.tsx
@@ -3787,8 +3782,8 @@ msgstr "当前图源"
 
 #. placeholder {0}: entry.sourceTitle
 #: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
-msgid "Destination - {0}"
-msgstr "目标位置 - {0}"
+msgid "Destination — {0}"
+msgstr "目标位置 — {0}"
 
 #: src/features/migration/screens/MigrationExecute.tsx
 msgid "Done"
@@ -3904,8 +3899,8 @@ msgstr "已选择"
 
 #: src/features/migration/components/migration-entry/MigrationSourceEntry.tsx
 #: src/features/migration/components/migration-entry/MigrationSourceEntry.tsx
-msgid "Source entry - {sourceTitle}"
-msgstr "图源作品 - {sourceTitle}"
+msgid "Source entry — {sourceTitle}"
+msgstr "图源作品 — {sourceTitle}"
 
 #: src/features/migration/screens/MigrationSearch.tsx
 msgid "Start migration"
@@ -4251,8 +4246,8 @@ msgstr "你需要添加扩展商店才能安装扩展"
 
 #. placeholder {0}: t(SYNC_STATE_TRANSLATION[syncState])
 #: src/features/settings/screens/ServerSettings.tsx
-msgid "- State: {0}"
-msgstr "- 状态：{0}"
+msgid "— State: {0}"
+msgstr "— 状态：{0}"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Could not start sync"
@@ -4358,3 +4353,23 @@ msgstr "打开随机条目"
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Random"
 msgstr "随机"
+
+#: src/lib/HelperFunctions.ts
+msgid "Copied to clipboard"
+msgstr "已复制到剪贴板"
+
+#: src/lib/HelperFunctions.ts
+msgid "Could not copy to clipboard"
+msgstr "无法复制到剪贴板"
+
+#: src/features/settings/components/DebugInformation.tsx
+msgid "Could not load data"
+msgstr "无法加载数据"
+
+#: src/features/settings/screens/About.tsx
+msgid "Debug information"
+msgstr "调试信息"
+
+#: src/features/settings/components/DebugInformation.tsx
+msgid "Show"
+msgstr "展示"

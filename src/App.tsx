@@ -7,7 +7,7 @@
  */
 
 import CssBaseline from '@mui/material/CssBaseline';
-import type { PropsWithChildren } from 'react';
+import type { PropsWithChildren, ReactNode } from 'react';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Navigate, Outlet, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev';
@@ -37,6 +37,7 @@ import { MigrationFABIndicator } from '@/features/migration/components/Migration
 import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { SplashScreen } from '@/features/authentication/components/SplashScreen.tsx';
 import { d } from 'koration';
+import { OffsetContainer } from '@/base/OffsetComponent.tsx';
 
 const { Browse } = loadable(() => import('@/features/browse/screens/Browse.tsx'), lazyLoadFallback);
 const { DownloadQueue } = loadable(() => import('@/features/downloads/screens/DownloadQueue.tsx'), lazyLoadFallback);
@@ -402,6 +403,12 @@ const ReaderApp = () => (
     </ErrorBoundary>
 );
 
+const OffsetContainerRoot = ({ children }: { children?: ReactNode }) => {
+    const { appBarHeight } = useNavBarContext();
+
+    return <OffsetContainer topOffset={appBarHeight}>{children}</OffsetContainer>;
+};
+
 const AppLayout = () => (
     <InitializeGuard>
         <ServerUpdateChecker />
@@ -417,10 +424,12 @@ const AppLayout = () => (
                 element={
                     <>
                         <Box sx={{ display: 'flex' }}>
-                            <Box sx={{ flexShrink: 0, position: 'relative', height: '100vh' }}>
-                                <DefaultNavBar />
-                            </Box>
-                            <MainApp />
+                            <OffsetContainerRoot>
+                                <Box sx={{ flexShrink: 0, position: 'relative', height: '100vh' }}>
+                                    <DefaultNavBar />
+                                </Box>
+                                <MainApp />
+                            </OffsetContainerRoot>
                         </Box>
                         <MigrationFABIndicator />
                     </>

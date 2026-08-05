@@ -28,8 +28,8 @@ msgid "*: Active setting"
 msgstr "*: Configuração ativa"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
-msgid "A-Z"
-msgstr "A-Z"
+msgid "A—Z"
+msgstr "A—Z"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
 #: src/features/settings/screens/About.tsx
@@ -452,11 +452,6 @@ msgstr "Horizontal contínua"
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Continuous vertical"
 msgstr "Vertical contínua"
-
-#: src/features/manga/components/details/MangaDetails.tsx
-#: src/features/reader/overlay/mobile/ReaderOverlayHeaderMobile.tsx
-msgid "Copied to clipboard"
-msgstr "Copiado para área de transferencia"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/migration/components/MigrationSingleMangaDialog.tsx
@@ -2997,8 +2992,8 @@ msgstr "Compatível"
 
 #. placeholder {0}: t(SYNC_STATE_TRANSLATION[syncState])
 #: src/features/settings/screens/ServerSettings.tsx
-msgid "- State: {0}"
-msgstr "- Estado: {0}"
+msgid "— State: {0}"
+msgstr "— Estado: {0}"
 
 #. placeholder {0}: abortedEntries.length
 #: src/features/migration/screens/MigrationExecute.tsx

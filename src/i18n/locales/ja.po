@@ -32,8 +32,8 @@ msgid "A preview focused web frontend built with svelte"
 msgstr "svelte で構築されたプレビュー重視の Web フロントエンド"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
-msgid "A-Z"
-msgstr "A-Z"
+msgid "A—Z"
+msgstr "A—Z"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
 #: src/features/settings/screens/About.tsx
@@ -503,11 +503,6 @@ msgstr "連続水平スクロール"
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Continuous vertical"
 msgstr "垂直に連続"
-
-#: src/features/manga/components/details/MangaDetails.tsx
-#: src/features/reader/overlay/mobile/ReaderOverlayHeaderMobile.tsx
-msgid "Copied to clipboard"
-msgstr "クリップボードにコピーしました"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/migration/components/MigrationSingleMangaDialog.tsx
