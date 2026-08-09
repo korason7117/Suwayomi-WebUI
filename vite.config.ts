@@ -94,8 +94,8 @@ export default defineConfig(({ command }) => ({
                             cacheName: 'image-cache-chapter-pages',
                             expiration: {
                                 // Max age from server
-                                maxAgeSeconds: d(15).minutes.inWholeSeconds,
-                                maxEntries: 500,
+                                maxAgeSeconds: d(5).minutes.inWholeSeconds,
+                                maxEntries: 100,
                             },
                         },
                     }),
