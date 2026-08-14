@@ -66,6 +66,15 @@ const PRIVACY_UNSAFE_SERVER_SETTINGS: (keyof ServerSettings)[] = [
     'databasePassword',
     'syncYomiApiKey',
     'jwtAudience',
+    'socksProxyHost',
+    'socksProxyPort',
+    'electronPath',
+    'downloadsPath',
+    'localSourcePath',
+    'flareSolverrUrl',
+    'flareSolverrSessionName',
+    'databaseUrl',
+    'syncYomiHost',
 ];
 const getBrowserDebugInfo = async (serverAddress: string) => {
     const nav = navigator;
@@ -209,25 +218,27 @@ const getBrowserDebugInfo = async (serverAddress: string) => {
 };
 const mapObjectToMetadata = (obj: object, tabs: number = 0) => (
     <Stack>
-        {Object.entries(obj).map(([key, value], index, array) =>
-            !!value && typeof value === 'object' && !Array.isArray(value) ? (
-                <Fragment key={key}>
-                    {index >= 1 && <br />}
-                    <TypographyMaxLines component="span">{indent(key, tabs, ' ')}</TypographyMaxLines>
-                    {mapObjectToMetadata(value, tabs + 2)}
-                    {array[index + 1] && typeof array[index + 1]?.[1] !== 'object' && <br />}
-                </Fragment>
-            ) : (
-                <Metadata
-                    key={key}
-                    title={indent(key, tabs, ' ')}
-                    value={indent(JSON.stringify(value), 1, ' ')}
-                    titleProps={{ component: 'span' }}
-                    valueProps={{ component: 'span' }}
-                    stackProps={{ sx: { display: 'inline-block' } }}
-                />
-            ),
-        )}
+        {Object.entries(obj)
+            .filter(([key]) => key !== '__typename')
+            .map(([key, value], index, array) =>
+                !!value && typeof value === 'object' && !Array.isArray(value) ? (
+                    <Fragment key={key}>
+                        {index >= 1 && <br />}
+                        <TypographyMaxLines component="span">{indent(key, tabs, ' ')}</TypographyMaxLines>
+                        {mapObjectToMetadata(value, tabs + 2)}
+                        {array[index + 1] && typeof array[index + 1]?.[1] !== 'object' && <br />}
+                    </Fragment>
+                ) : (
+                    <Metadata
+                        key={key}
+                        title={indent(key, tabs, ' ')}
+                        value={indent(JSON.stringify(value), 1, ' ')}
+                        titleProps={{ component: 'span' }}
+                        valueProps={{ component: 'span' }}
+                        stackProps={{ sx: { display: 'inline-block' } }}
+                    />
+                ),
+            )}
     </Stack>
 );
 
@@ -299,19 +310,20 @@ export const DebugInformation = () => {
     const debugInfo = useMemo(
         () => ({
             About: {
-                Server: {
-                    Version: aboutServer?.version,
-                    Channel: aboutServer?.buildType,
-                    'Build time': aboutServer?.buildTime
-                        ? epochToDate(Number(aboutServer.buildTime)).toISOString()
-                        : '-',
-                },
                 WebUI: {
                     Version: aboutWebUI?.tag,
                     Channel: aboutWebUI?.channel,
                     'Update timestamp': aboutWebUI?.updateTimestamp
                         ? dayjs(Number(aboutWebUI.updateTimestamp)).toISOString()
                         : '-',
+                },
+                Server: {
+                    Version: aboutServer?.version,
+                    Channel: aboutServer?.buildType,
+                    'Build time': aboutServer?.buildTime
+                        ? epochToDate(Number(aboutServer.buildTime)).toISOString()
+                        : '-',
+                    'Platform info': aboutServer?.platformInfo,
                 },
             },
             Settings: {

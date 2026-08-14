@@ -120,6 +120,8 @@ import type {
     RemoveExtensionStoreMutationVariables,
     ReorderChapterDownloadMutation,
     ReorderChapterDownloadMutationVariables,
+    ReorderChapterDownloadsMutation,
+    ReorderChapterDownloadsMutationVariables,
     ResetWebuiUpdateStatusMutation,
     ResetWebuiUpdateStatusMutationVariables,
     RestoreBackupMutation,
@@ -200,6 +202,8 @@ import type {
     ValidateBackupQueryVariables,
     WebuiUpdateSubscription,
     WebuiUpdateSubscriptionVariables,
+    WebviewClearCacheCookiesMutation,
+    WebviewClearCacheCookiesMutationVariables,
 } from '@/lib/graphql/generated/graphql.ts';
 import type {
     CreateBackupInput,
@@ -280,6 +284,7 @@ import {
     ENQUEUE_CHAPTER_DOWNLOAD,
     ENQUEUE_CHAPTER_DOWNLOADS,
     REORDER_CHAPTER_DOWNLOAD,
+    REORDER_CHAPTER_DOWNLOADS,
     START_DOWNLOADER,
     STOP_DOWNLOADER,
 } from '@/lib/graphql/download/DownloaderMutation.ts';
@@ -355,6 +360,7 @@ import { GET_EXTENSION_STORE, GET_EXTENSION_STORES } from '@/lib/graphql/extensi
 import { SYNC_SUBSCRIPTION } from '@/lib/graphql/sync/SyncSubscription.ts';
 import { START_SYNC } from '@/lib/graphql/sync/SyncMutation.ts';
 import { GET_SYNC_STATUS } from '@/lib/graphql/sync/SyncQuery.ts';
+import { WEBVIEW_CLEAR_CACHE_COOKIES } from '@/lib/graphql/web-view/WebViewMutation.ts';
 
 enum GQLMethod {
     QUERY = 'QUERY',
@@ -3418,6 +3424,62 @@ export class RequestManager {
         return [wrappedMutate, result];
     }
 
+    public useReorderChaptersInDownloadQueue(
+        options?: MutationHookOptions<ReorderChapterDownloadsMutation, ReorderChapterDownloadsMutationVariables>,
+    ): AbortableApolloUseMutationResponse<ReorderChapterDownloadsMutation, ReorderChapterDownloadsMutationVariables> {
+        const [mutate, result] = this.doRequest(GQLMethod.USE_MUTATION, REORDER_CHAPTER_DOWNLOADS, undefined, options);
+
+        const wrappedMutate = (mutationOptions: Parameters<typeof mutate>[0]) => {
+            const variables = mutationOptions?.variables?.input;
+            const cachedDownloadStatus = this.graphQLClient.client.readFragment<
+                GetDownloadStatusQuery['downloadStatus']
+            >({
+                id: 'DownloadStatus:{}',
+                fragment: DOWNLOAD_STATUS_FIELDS,
+                fragmentName: 'DOWNLOAD_STATUS_FIELDS',
+            });
+
+            if (!variables) {
+                throw new Error('useReorderChapterInDownloadQueue: no variables passed');
+            }
+
+            if (!cachedDownloadStatus) {
+                throw new Error('useReorderChapterInDownloadQueue: there are no cached results');
+            }
+
+            const movedChapterIds = new Set(variables.reorders.map(({ chapterId }) => chapterId));
+
+            const movedChapters = variables.reorders
+                .map(({ chapterId }) => cachedDownloadStatus.queue.find(({ chapter }) => chapter.id === chapterId))
+                .filter((download) => download != null);
+
+            const queueWithoutMovedChapters = cachedDownloadStatus.queue.filter(
+                ({ chapter }) => !movedChapterIds.has(chapter.id),
+            );
+
+            const updatedQueue = variables.reorders.reduce(
+                (queue, reorder, index) => queue.toSpliced(reorder.to, 0, movedChapters[index]),
+                queueWithoutMovedChapters,
+            );
+
+            return mutate({
+                optimisticResponse: {
+                    __typename: 'Mutation',
+                    reorderChapterDownloads: {
+                        __typename: 'ReorderChapterDownloadPayload',
+                        downloadStatus: {
+                            ...cachedDownloadStatus,
+                            queue: updatedQueue,
+                        },
+                    },
+                },
+                ...mutationOptions,
+            });
+        };
+
+        return [wrappedMutate, result];
+    }
+
     public addChaptersToDownloadQueue(
         ids: number[],
         options?: MutationOptions<EnqueueChapterDownloadsMutation, EnqueueChapterDownloadsMutationVariables>,
@@ -3956,6 +4018,12 @@ export class RequestManager {
             { refreshToken: refreshToken ?? undefined },
             options,
         );
+    }
+
+    public useClearWebViewCookiesCache(
+        options?: MutationOptions<WebviewClearCacheCookiesMutation, WebviewClearCacheCookiesMutationVariables>,
+    ): AbortableApolloUseMutationResponse<WebviewClearCacheCookiesMutation, WebuiUpdateSubscriptionVariables> {
+        return this.doRequest(GQLMethod.USE_MUTATION, WEBVIEW_CLEAR_CACHE_COOKIES, {}, options);
     }
 }
 
