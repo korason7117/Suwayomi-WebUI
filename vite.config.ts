@@ -95,7 +95,7 @@ export default defineConfig(({ command }) => ({
                             expiration: {
                                 // Max age from server
                                 maxAgeSeconds: d(5).minutes.inWholeSeconds,
-                                maxEntries: 100,
+                                maxEntries: 50,
                             },
                         },
                     }),
@@ -110,7 +110,7 @@ export default defineConfig(({ command }) => ({
                             expiration: {
                                 // Max age from server
                                 maxAgeSeconds: d(1).days.inWholeSeconds,
-                                maxEntries: 500,
+                                maxEntries: 5000,
                             },
                         },
                     }),
