@@ -20,6 +20,7 @@ import type {
     AllowedMetadataValueTypes,
     GqlMetaHolder,
     Metadata,
+    MetadataBulkParams,
     MetadataHolder,
 } from '@/features/metadata/Metadata.types.ts';
 
@@ -78,10 +79,7 @@ export const useGetCategoryMetadata = (
     return useMemo(() => metadata, [metaHolder, defaultMetadata]);
 };
 
-export const updateCategoryMetadata = async <
-    MetadataKeys extends CategoryMetadataKeys = CategoryMetadataKeys,
-    MetadataKey extends MetadataKeys = MetadataKeys,
->(
+export const updateCategoryMetadata = async <MetadataKey extends CategoryMetadataKeys = CategoryMetadataKeys>(
     category: CategoryIdInfo & GqlMetaHolder,
     metadataKey: MetadataKey,
     value: ICategoryMetadata[MetadataKey],
@@ -90,23 +88,15 @@ export const updateCategoryMetadata = async <
         update: [[metadataKey, convertAppMetadataToGqlMetadata({ [metadataKey]: value })[metadataKey]]],
     });
 
-export const batchUpdateCategoryMetadata = async <
-    MetadataKeys extends CategoryMetadataKeys = CategoryMetadataKeys,
-    MetadataKey extends MetadataKeys = MetadataKeys,
->(
-    updates: Array<{
-        categories: (CategoryIdInfo & GqlMetaHolder)[];
-        entries: Array<{ metadataKey: MetadataKey; value: ICategoryMetadata[MetadataKey] }>;
-    }>,
+export const batchUpdateCategoryMetadata = async (
+    updates: MetadataBulkParams<'categories', CategoryIdInfo, ICategoryMetadata>[],
 ): Promise<void> =>
     requestBatchCategoryMetadataUpdate(
-        updates.map(({ categories, entries }) => ({
+        updates.map(({ categories, update, delete: keysToDelete }) => ({
             categories,
             options: {
-                update: entries.map(({ metadataKey, value }) => [
-                    metadataKey,
-                    convertAppMetadataToGqlMetadata({ [metadataKey]: value })[metadataKey],
-                ]),
+                update: update?.map(({ key, value }) => [key, convertAppMetadataToGqlMetadata({ [key]: value })[key]]),
+                delete: keysToDelete,
             },
         })),
     );
