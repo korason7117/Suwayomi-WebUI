@@ -464,11 +464,6 @@ msgstr "All"
 msgid "Allow deleting bookmarked chapters"
 msgstr "Allow deleting bookmarked chapters"
 
-#: src/base/components/inputs/LanguageSelect.tsx
-#: src/features/source/components/SourceLanguageSelect.tsx
-msgid "Allowed Languages"
-msgstr "Allowed Languages"
-
 #: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
 msgid "Alpha"
 msgstr "Alpha"
@@ -1238,6 +1233,7 @@ msgid "Could not search source"
 msgstr "Could not search source"
 
 #: src/features/settings/screens/ServerSettings.tsx
+#: src/features/sync/components/SyncButton.tsx
 msgid "Could not start sync"
 msgstr "Could not start sync"
 
@@ -1672,6 +1668,14 @@ msgstr "Enable page read progress"
 msgid "Enable the WebView via CEF (Chromium)"
 msgstr "Enable the WebView via CEF (Chromium)"
 
+#: src/base/components/inputs/LanguageSelect.tsx
+msgid "Enabled languages"
+msgstr "Enabled languages"
+
+#: src/features/source/components/SourceLanguageSelect.tsx
+msgid "Enabled languages and sources"
+msgstr "Enabled languages and sources"
+
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "Entries in excluded categories will not be downloaded even if they are also in included categories"
 msgstr "Entries in excluded categories will not be downloaded even if they are also in included categories"
@@ -1826,8 +1830,8 @@ msgstr "Features and changes in this version might not be completely ready yet a
 "After changing this setting go to the \"About\" page and check for a webUI update and install it"
 
 #: src/features/settings/screens/Appearance.tsx
-msgid "Feel free to translate the project on"
-msgstr "Feel free to translate the project on"
+msgid "Feel free to translate the project on Weblate (<0>WebUI</0> and <1>Server</1>)"
+msgstr "Feel free to translate the project on Weblate (<0>WebUI</0> and <1>Server</1>)"
 
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Fifth to last read chapter"
@@ -3742,6 +3746,10 @@ msgstr "Sync in progress"
 msgid "Sync interval"
 msgstr "Sync interval"
 
+#: src/features/sync/components/SyncButton.tsx
+msgid "Sync now"
+msgstr "Sync now"
+
 #: src/features/settings/Settings.constants.ts
 msgid "Sync started"
 msgstr "Sync started"
@@ -4220,10 +4228,6 @@ msgstr "VUI"
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 msgid "Warning"
 msgstr "Warning"
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Weblate"
-msgstr "Weblate"
 
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Webtoon"

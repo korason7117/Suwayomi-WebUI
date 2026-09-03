@@ -12,10 +12,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Download**) Add button to retry all failed downloads
 - (**Reader**) Add fullscreen setting (does nothing on iOS)
 - (**Library**) Add `reset` button to library filters
+- (**Sync**) Add sync button to the app bar of the library and updates pages
 
 ### Changed
 
 - (**Extension**) Install extension when clicking card of uninstalled extension
+- (**Extension**) Show sources of extension as disabled in case the language itself is disabled. Enabling such a source will enable the language as well
+- (**Extension/Source**) Keep language filter sorting stable while changes are temporary
+- (**Extension/Source**) Additionally, show the english name of a language in the language filter
 - (**Updates/History/Downloads**) Show scanlator of chapter
 - (**Updates**) Improve render performance of the collapsed more updates
 - (**Migration**) Improve render performance of the migration search and execution page
@@ -27,6 +31,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Download**) Make downloads cancelable outside the download queue page
 - (**Global search**) Show count of entries in the library of each source
 - (**Manga**) Show description as markdown
+- (**Appearance**) Additionally, show the english name of a language in the language select dropdown
 
 ### Fixed
 
