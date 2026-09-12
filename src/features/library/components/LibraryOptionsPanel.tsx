@@ -34,15 +34,17 @@ import {
     updateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import type { LibrarySortMode } from '@/features/library/Library.types.ts';
-import type { CategoryMetadataInfo } from '@/features/category/Category.types.ts';
+import { FilterMode, type LibrarySortMode } from '@/features/library/Library.types.ts';
+import type { CategoryMetadataInfo, ICategoryMetadata } from '@/features/category/Category.types.ts';
 import { MANGA_STATUS_TO_TRANSLATION } from '@/features/manga/Manga.constants.ts';
-import { GridLayout } from '@/base/Base.types';
+import { GridLayout, type ValueToDisplayData } from '@/base/Base.types';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { Collapsable } from '@/base/components/Collapsable.tsx';
 import { ResetButton } from '@/base/components/buttons/ResetButton.tsx';
 import Replay from '@mui/icons-material/Replay';
 import { Sources } from '@/features/source/services/Sources';
+import Stack from '@mui/material/Stack';
+import { ValueRotationButton } from '@/base/components/buttons/ValueRotationButton.tsx';
 
 const TITLES: { [key in 'filter' | 'sort' | 'display']: MessageDescriptor } = {
     filter: msg`Filter`,
@@ -61,22 +63,90 @@ const SORT_OPTIONS: [LibrarySortMode, MessageDescriptor][] = [
     ['random', msg`Random`],
 ];
 
-const CollapsableFilter = ({ title, items, isActive }: { title: string; items: ReactNode[]; isActive: boolean }) => (
-    <Collapsable
-        header={title}
-        collapse={items}
-        initialState={isActive}
-        slots={{
-            headerWrapper: {
-                component: FormLabel,
-                sx: {
-                    mt: 2,
-                    color: isActive ? 'warning.main' : undefined,
+const FILTER_MODE_DISPLAY_DATA: ValueToDisplayData<FilterMode> = {
+    [FilterMode.AND]: {
+        title: msg`and`,
+        icon: null,
+    },
+    [FilterMode.OR]: {
+        title: msg`or`,
+        icon: null,
+    },
+};
+
+const FILTER_MODES = Object.values(FilterMode);
+
+const CollapsableFilter = ({
+    title,
+    items,
+    isActive,
+    reset,
+    mode,
+    setMode,
+}: {
+    title: string;
+    items: ReactNode[];
+    isActive: boolean;
+    reset: () => void;
+    mode?: FilterMode;
+    setMode?: (mode: FilterMode) => void;
+}) => {
+    const { t } = useLingui();
+
+    return (
+        <Collapsable
+            header={title}
+            headerEnd={
+                <Stack sx={{ flexGrow: 1, flexDirection: 'row', justifyContent: 'flex-end', gap: 1, flexWrap: 'wrap' }}>
+                    {mode && !!setMode && (
+                        <ValueRotationButton
+                            tooltip={t`Filter mode`}
+                            value={mode}
+                            values={FILTER_MODES}
+                            setValue={setMode}
+                            valueToDisplayData={FILTER_MODE_DISPLAY_DATA}
+                            slots={{
+                                button: {
+                                    base: {
+                                        size: 'small',
+                                        variant: 'outlined',
+                                        sx: { flexGrow: 0, justifyContent: 'center', textTransform: 'uppercase' },
+                                    },
+                                },
+                            }}
+                        />
+                    )}
+                    <ResetButton
+                        disabled={!isActive}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            reset();
+                        }}
+                        variant="outlined"
+                        size="small"
+                    />
+                </Stack>
+            }
+            collapse={items}
+            initialState={isActive}
+            slots={{
+                headerContainer: {
+                    sx: {
+                        mt: 2,
+                        flexWrap: 'wrap',
+                    },
                 },
-            },
-        }}
-    />
-);
+                headerWrapper: {
+                    component: FormLabel,
+                    sx: {
+                        color: isActive ? 'warning.main' : undefined,
+                    },
+                },
+            }}
+        />
+    );
+};
 
 export const LibraryOptionsPanel = ({
     category,
@@ -114,20 +184,22 @@ export const LibraryOptionsPanel = ({
         makeToast(t`Could not save the default search settings to the server`, 'error', getErrorMessage(e)),
     );
 
-    const resetFilters = () => {
+    const resetFilters = (
+        deleteKeys: (keyof ICategoryMetadata)[] = [
+            'hasUnreadChapters',
+            'hasReadChapters',
+            'hasDownloadedChapters',
+            'hasBookmarkedChapters',
+            'hasDuplicateChapters',
+            'hasStatus',
+            'hasTrackerBinding',
+            'hasSource',
+        ],
+    ) => {
         batchUpdateCategoryMetadata([
             {
                 categories: [category],
-                delete: [
-                    'hasUnreadChapters',
-                    'hasReadChapters',
-                    'hasDownloadedChapters',
-                    'hasBookmarkedChapters',
-                    'hasDuplicateChapters',
-                    'hasStatus',
-                    'hasTrackerBinding',
-                    'hasSource',
-                ],
+                delete: deleteKeys,
             },
         ]).catch((e) => makeToast(t`Could not reset filters`, 'error', getErrorMessage(e)));
     };
@@ -144,7 +216,7 @@ export const LibraryOptionsPanel = ({
                         <>
                             <ResetButton
                                 disabled={!active}
-                                onClick={resetFilters}
+                                onClick={() => resetFilters()}
                                 sx={{ alignSelf: 'flex-end' }}
                                 variant="outlined"
                                 size="small"
@@ -190,6 +262,7 @@ export const LibraryOptionsPanel = ({
                                     />
                                 ))}
                                 isActive={isStatusFilterActive}
+                                reset={() => resetFilters(['hasStatus'])}
                             />
                             {!!loggedInTrackers.length && (
                                 <CollapsableFilter
@@ -198,16 +271,27 @@ export const LibraryOptionsPanel = ({
                                         <ThreeStateCheckboxInput
                                             key={tracker.id}
                                             label={tracker.name}
-                                            checked={categoryLibraryOptions.hasTrackerBinding[tracker.id]}
+                                            checked={categoryLibraryOptions.hasTrackerBinding.filters[tracker.id]}
                                             onChange={(checked) =>
                                                 updateCategoryLibraryOptions('hasTrackerBinding', {
                                                     ...categoryLibraryOptions.hasTrackerBinding,
-                                                    [tracker.id]: checked,
+                                                    filters: {
+                                                        ...categoryLibraryOptions.hasTrackerBinding.filters,
+                                                        [tracker.id]: checked,
+                                                    },
                                                 })
                                             }
                                         />
                                     ))}
                                     isActive={isTrackerFilterActive}
+                                    reset={() => resetFilters(['hasTrackerBinding'])}
+                                    mode={categoryLibraryOptions.hasTrackerBinding.mode}
+                                    setMode={(mode) =>
+                                        updateCategoryLibraryOptions('hasTrackerBinding', {
+                                            ...categoryLibraryOptions.hasTrackerBinding,
+                                            mode,
+                                        })
+                                    }
                                 />
                             )}
                             {!!librarySources.length && (
@@ -227,6 +311,7 @@ export const LibraryOptionsPanel = ({
                                         />
                                     ))}
                                     isActive={isSourceFilterActive}
+                                    reset={() => resetFilters(['hasSource'])}
                                 />
                             )}
                         </>

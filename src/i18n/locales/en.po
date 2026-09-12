@@ -121,11 +121,6 @@ msgstr "{0, plural, one {Could not reorder download} other {Could not reorder do
 msgid "{0, plural, one {Second} other {Seconds}}"
 msgstr "{0, plural, one {Second} other {Seconds}}"
 
-#. placeholder {0}: otherChapters.length
-#: src/features/updates/components/ChapterUpdateCard.tsx
-msgid "{0, plural, one {Show # more chapter} other {Show # more chapters}}"
-msgstr "{0, plural, one {Show # more chapter} other {Show # more chapters}}"
-
 #. placeholder {0}: searchProgress.completed
 #. placeholder {1}: searchProgress.total
 #: src/features/migration/screens/MigrationSearch.tsx
@@ -239,6 +234,10 @@ msgstr "{count, plural, one {Next chapter} other {Next # chapters}}"
 #: src/features/manga/Manga.constants.ts
 msgid "{count, plural, one {Removed manga from the library} other {Removed # manga from the library}}"
 msgstr "{count, plural, one {Removed manga from the library} other {Removed # manga from the library}}"
+
+#: src/features/chapter/components/buttons/ChapterCardExpandButton.tsx
+msgid "{count, plural, one {Show # more chapter} other {Show # more chapters}}"
+msgstr "{count, plural, one {Show # more chapter} other {Show # more chapters}}"
 
 #: src/features/reader/services/ReaderControls.ts
 msgid "{count, plural, one {There is # missing chapter.\n"
@@ -472,6 +471,10 @@ msgstr "Alpha"
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx
 msgid "Also remove from {0}"
 msgstr "Also remove from {0}"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "and"
+msgstr "and"
 
 #: src/features/settings/screens/Appearance.tsx
 #: src/features/settings/screens/Settings.tsx
@@ -1860,6 +1863,10 @@ msgstr "Filter manga feed to display only chapters you have downloaded."
 msgid "Filter manga feed to display only chapters you haven’t read yet."
 msgstr "Filter manga feed to display only chapters you haven’t read yet."
 
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Filter mode"
+msgstr "Filter mode"
+
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx
 msgid "Finish date"
 msgstr "Finish date"
@@ -2900,6 +2907,10 @@ msgstr "Open website"
 #: src/features/manga/components/MangaOptionButton.tsx
 msgid "Options"
 msgstr "Options"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "or"
+msgstr "or"
 
 #: src/features/theme/Themes.ts
 msgid "Orange Juice"
