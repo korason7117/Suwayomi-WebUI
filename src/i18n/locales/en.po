@@ -1401,6 +1401,7 @@ msgstr "Default"
 msgid "Default category when adding new manga to the library"
 msgstr "Default category when adding new manga to the library"
 
+#: src/base/components/AppbarSearch.tsx
 #: src/base/components/settings/MutableListSetting.tsx
 #: src/features/category/components/CategorySettingsCard.tsx
 #: src/features/chapter/Chapter.constants.ts
@@ -1414,6 +1415,7 @@ msgstr "Default category when adding new manga to the library"
 msgid "Delete"
 msgstr "Delete"
 
+#: src/base/components/AppbarSearch.tsx
 #: src/features/downloads/screens/DownloadQueue.tsx
 msgid "Delete all"
 msgstr "Delete all"
@@ -3092,6 +3094,10 @@ msgstr "Reading direction"
 msgid "Reading mode"
 msgstr "Reading mode"
 
+#: src/base/components/AppbarSearch.tsx
+msgid "Recent searches"
+msgstr "Recent searches"
+
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Recently added"
 msgstr "Recently added"
@@ -3863,10 +3869,10 @@ msgstr "The migration runs on the client on the current device, NOT the server.\
 "The client can be closed. The migration will be resumed once it gets opened again on the same device it got started on."
 
 #: src/features/reader/services/ReaderControls.ts
-msgid "The next chapter has a different scanlator then the current one.\n"
+msgid "The next chapter has a different scanlator than the current one.\n"
 "Current: {currentScanlator}\n"
 "Next: {nextScanlator}"
-msgstr "The next chapter has a different scanlator then the current one.\n"
+msgstr "The next chapter has a different scanlator than the current one.\n"
 "Current: {currentScanlator}\n"
 "Next: {nextScanlator}"
 
@@ -3887,10 +3893,10 @@ msgid "The path to the electron installation on the server"
 msgstr "The path to the electron installation on the server"
 
 #: src/features/reader/services/ReaderControls.ts
-msgid "The previous chapter has a different scanlator then the current one.\n"
+msgid "The previous chapter has a different scanlator than the current one.\n"
 "Previous: {nextScanlator}\n"
 "Current: {currentScanlator}"
-msgstr "The previous chapter has a different scanlator then the current one.\n"
+msgstr "The previous chapter has a different scanlator than the current one.\n"
 "Previous: {nextScanlator}\n"
 "Current: {currentScanlator}"
 
