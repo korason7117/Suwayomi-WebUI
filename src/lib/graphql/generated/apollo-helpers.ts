@@ -1186,6 +1186,7 @@ export type PartialSettingsTypeKeySpecifier = (
     | 'basicAuthPassword'
     | 'basicAuthUsername'
     | 'databasePassword'
+    | 'databaseSchema'
     | 'databaseType'
     | 'databaseUrl'
     | 'databaseUsername'
@@ -1207,6 +1208,7 @@ export type PartialSettingsTypeKeySpecifier = (
     | 'flareSolverrUrl'
     | 'globalUpdateInterval'
     | 'gqlDebugLogsEnabled'
+    | 'hikariMaxPoolSize'
     | 'initialOpenInBrowserEnabled'
     | 'ip'
     | 'jwtAudience'
@@ -1285,6 +1287,7 @@ export type PartialSettingsTypeFieldPolicy = {
     basicAuthPassword?: FieldPolicy<any> | FieldReadFunction<any>;
     basicAuthUsername?: FieldPolicy<any> | FieldReadFunction<any>;
     databasePassword?: FieldPolicy<any> | FieldReadFunction<any>;
+    databaseSchema?: FieldPolicy<any> | FieldReadFunction<any>;
     databaseType?: FieldPolicy<any> | FieldReadFunction<any>;
     databaseUrl?: FieldPolicy<any> | FieldReadFunction<any>;
     databaseUsername?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1306,6 +1309,7 @@ export type PartialSettingsTypeFieldPolicy = {
     flareSolverrUrl?: FieldPolicy<any> | FieldReadFunction<any>;
     globalUpdateInterval?: FieldPolicy<any> | FieldReadFunction<any>;
     gqlDebugLogsEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
+    hikariMaxPoolSize?: FieldPolicy<any> | FieldReadFunction<any>;
     initialOpenInBrowserEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
     ip?: FieldPolicy<any> | FieldReadFunction<any>;
     jwtAudience?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1615,6 +1619,7 @@ export type SettingsKeySpecifier = (
     | 'basicAuthPassword'
     | 'basicAuthUsername'
     | 'databasePassword'
+    | 'databaseSchema'
     | 'databaseType'
     | 'databaseUrl'
     | 'databaseUsername'
@@ -1636,6 +1641,7 @@ export type SettingsKeySpecifier = (
     | 'flareSolverrUrl'
     | 'globalUpdateInterval'
     | 'gqlDebugLogsEnabled'
+    | 'hikariMaxPoolSize'
     | 'initialOpenInBrowserEnabled'
     | 'ip'
     | 'jwtAudience'
@@ -1714,6 +1720,7 @@ export type SettingsFieldPolicy = {
     basicAuthPassword?: FieldPolicy<any> | FieldReadFunction<any>;
     basicAuthUsername?: FieldPolicy<any> | FieldReadFunction<any>;
     databasePassword?: FieldPolicy<any> | FieldReadFunction<any>;
+    databaseSchema?: FieldPolicy<any> | FieldReadFunction<any>;
     databaseType?: FieldPolicy<any> | FieldReadFunction<any>;
     databaseUrl?: FieldPolicy<any> | FieldReadFunction<any>;
     databaseUsername?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1735,6 +1742,7 @@ export type SettingsFieldPolicy = {
     flareSolverrUrl?: FieldPolicy<any> | FieldReadFunction<any>;
     globalUpdateInterval?: FieldPolicy<any> | FieldReadFunction<any>;
     gqlDebugLogsEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
+    hikariMaxPoolSize?: FieldPolicy<any> | FieldReadFunction<any>;
     initialOpenInBrowserEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
     ip?: FieldPolicy<any> | FieldReadFunction<any>;
     jwtAudience?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1864,6 +1872,7 @@ export type SettingsTypeKeySpecifier = (
     | 'basicAuthPassword'
     | 'basicAuthUsername'
     | 'databasePassword'
+    | 'databaseSchema'
     | 'databaseType'
     | 'databaseUrl'
     | 'databaseUsername'
@@ -1885,6 +1894,7 @@ export type SettingsTypeKeySpecifier = (
     | 'flareSolverrUrl'
     | 'globalUpdateInterval'
     | 'gqlDebugLogsEnabled'
+    | 'hikariMaxPoolSize'
     | 'initialOpenInBrowserEnabled'
     | 'ip'
     | 'jwtAudience'
@@ -1963,6 +1973,7 @@ export type SettingsTypeFieldPolicy = {
     basicAuthPassword?: FieldPolicy<any> | FieldReadFunction<any>;
     basicAuthUsername?: FieldPolicy<any> | FieldReadFunction<any>;
     databasePassword?: FieldPolicy<any> | FieldReadFunction<any>;
+    databaseSchema?: FieldPolicy<any> | FieldReadFunction<any>;
     databaseType?: FieldPolicy<any> | FieldReadFunction<any>;
     databaseUrl?: FieldPolicy<any> | FieldReadFunction<any>;
     databaseUsername?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1984,6 +1995,7 @@ export type SettingsTypeFieldPolicy = {
     flareSolverrUrl?: FieldPolicy<any> | FieldReadFunction<any>;
     globalUpdateInterval?: FieldPolicy<any> | FieldReadFunction<any>;
     gqlDebugLogsEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
+    hikariMaxPoolSize?: FieldPolicy<any> | FieldReadFunction<any>;
     initialOpenInBrowserEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
     ip?: FieldPolicy<any> | FieldReadFunction<any>;
     jwtAudience?: FieldPolicy<any> | FieldReadFunction<any>;

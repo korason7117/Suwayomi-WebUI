@@ -1962,6 +1962,7 @@ export type PartialSettingsType = Settings & {
     /** @deprecated Removed - prefer authUsername, replace with authUsername */
     basicAuthUsername?: Maybe<Scalars['String']['output']>;
     databasePassword?: Maybe<Scalars['String']['output']>;
+    databaseSchema?: Maybe<Scalars['String']['output']>;
     databaseType?: Maybe<DatabaseType>;
     databaseUrl?: Maybe<Scalars['String']['output']>;
     databaseUsername?: Maybe<Scalars['String']['output']>;
@@ -1985,6 +1986,7 @@ export type PartialSettingsType = Settings & {
     globalUpdateInterval?: Maybe<Scalars['Float']['output']>;
     /** @deprecated Removed - does not do anything */
     gqlDebugLogsEnabled?: Maybe<Scalars['Boolean']['output']>;
+    hikariMaxPoolSize?: Maybe<Scalars['Int']['output']>;
     initialOpenInBrowserEnabled?: Maybe<Scalars['Boolean']['output']>;
     ip?: Maybe<Scalars['String']['output']>;
     jwtAudience?: Maybe<Scalars['String']['output']>;
@@ -2064,6 +2066,7 @@ export type PartialSettingsTypeInput = {
     backupTTL?: InputMaybe<Scalars['Int']['input']>;
     backupTime?: InputMaybe<Scalars['String']['input']>;
     databasePassword?: InputMaybe<Scalars['String']['input']>;
+    databaseSchema?: InputMaybe<Scalars['String']['input']>;
     databaseType?: InputMaybe<DatabaseType>;
     databaseUrl?: InputMaybe<Scalars['String']['input']>;
     databaseUsername?: InputMaybe<Scalars['String']['input']>;
@@ -2083,6 +2086,7 @@ export type PartialSettingsTypeInput = {
     flareSolverrTimeout?: InputMaybe<Scalars['Int']['input']>;
     flareSolverrUrl?: InputMaybe<Scalars['String']['input']>;
     globalUpdateInterval?: InputMaybe<Scalars['Float']['input']>;
+    hikariMaxPoolSize?: InputMaybe<Scalars['Int']['input']>;
     initialOpenInBrowserEnabled?: InputMaybe<Scalars['Boolean']['input']>;
     ip?: InputMaybe<Scalars['String']['input']>;
     jwtAudience?: InputMaybe<Scalars['String']['input']>;
@@ -2612,6 +2616,7 @@ export type Settings = {
     /** @deprecated Removed - prefer authUsername, replace with authUsername */
     basicAuthUsername?: Maybe<Scalars['String']['output']>;
     databasePassword?: Maybe<Scalars['String']['output']>;
+    databaseSchema?: Maybe<Scalars['String']['output']>;
     databaseType?: Maybe<DatabaseType>;
     databaseUrl?: Maybe<Scalars['String']['output']>;
     databaseUsername?: Maybe<Scalars['String']['output']>;
@@ -2635,6 +2640,7 @@ export type Settings = {
     globalUpdateInterval?: Maybe<Scalars['Float']['output']>;
     /** @deprecated Removed - does not do anything */
     gqlDebugLogsEnabled?: Maybe<Scalars['Boolean']['output']>;
+    hikariMaxPoolSize?: Maybe<Scalars['Int']['output']>;
     initialOpenInBrowserEnabled?: Maybe<Scalars['Boolean']['output']>;
     ip?: Maybe<Scalars['String']['output']>;
     jwtAudience?: Maybe<Scalars['String']['output']>;
@@ -2767,6 +2773,7 @@ export type SettingsType = Settings & {
     /** @deprecated Removed - prefer authUsername, replace with authUsername */
     basicAuthUsername: Scalars['String']['output'];
     databasePassword: Scalars['String']['output'];
+    databaseSchema: Scalars['String']['output'];
     databaseType: DatabaseType;
     databaseUrl: Scalars['String']['output'];
     databaseUsername: Scalars['String']['output'];
@@ -2790,6 +2797,7 @@ export type SettingsType = Settings & {
     globalUpdateInterval: Scalars['Float']['output'];
     /** @deprecated Removed - does not do anything */
     gqlDebugLogsEnabled: Scalars['Boolean']['output'];
+    hikariMaxPoolSize: Scalars['Int']['output'];
     initialOpenInBrowserEnabled: Scalars['Boolean']['output'];
     ip: Scalars['String']['output'];
     jwtAudience: Scalars['String']['output'];

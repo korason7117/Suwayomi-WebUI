@@ -3167,7 +3167,9 @@ export type ServerSettingsFragment = {
     databaseUrl: string;
     databaseUsername: string;
     databasePassword: string;
+    databaseSchema: string;
     useHikariConnectionPool: boolean;
+    hikariMaxPoolSize: number;
     kcefEnabled: boolean;
     syncDataCategories: boolean;
     syncDataChapters: boolean;
@@ -3280,7 +3282,9 @@ export type ResetServerSettingsMutation = {
             databaseUrl: string;
             databaseUsername: string;
             databasePassword: string;
+            databaseSchema: string;
             useHikariConnectionPool: boolean;
+            hikariMaxPoolSize: number;
             kcefEnabled: boolean;
             syncDataCategories: boolean;
             syncDataChapters: boolean;
@@ -3403,7 +3407,9 @@ export type UpdateServerSettingsMutation = {
             databaseUrl: string;
             databaseUsername: string;
             databasePassword: string;
+            databaseSchema: string;
             useHikariConnectionPool: boolean;
+            hikariMaxPoolSize: number;
             kcefEnabled: boolean;
             syncDataCategories: boolean;
             syncDataChapters: boolean;
@@ -3522,7 +3528,9 @@ export type GetServerSettingsQuery = {
         databaseUrl: string;
         databaseUsername: string;
         databasePassword: string;
+        databaseSchema: string;
         useHikariConnectionPool: boolean;
+        hikariMaxPoolSize: number;
         kcefEnabled: boolean;
         syncDataCategories: boolean;
         syncDataChapters: boolean;
@@ -5147,11 +5155,11 @@ export type UserLoginMutation = {
     login: { __typename: 'LoginPayload'; accessToken: string; refreshToken: string };
 };
 
-export type UserRefreshMutationVariables = Exact<{
+export type RefreshAccessTokenMutationVariables = Exact<{
     refreshToken: string;
 }>;
 
-export type UserRefreshMutation = {
+export type RefreshAccessTokenMutation = {
     __typename: 'Mutation';
     refreshToken: { __typename: 'RefreshTokenPayload'; accessToken: string };
 };
