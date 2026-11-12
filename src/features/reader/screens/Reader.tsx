@@ -203,8 +203,8 @@ const BaseReader = ({
                                 position: 'fixed',
                                 top: 0,
                                 left: 0,
-                                width: '100vw',
-                                height: '100vh',
+                                width: '100dvw',
+                                height: '100dvh',
                                 background: 'transparent',
                             }}
                         />
@@ -244,8 +244,8 @@ const BaseReader = ({
         return (
             <Box
                 sx={{
-                    height: '100vh',
-                    width: '100vw',
+                    height: '100dvh',
+                    width: '100dvw',
                     display: 'grid',
                     placeItems: 'center',
                 }}
